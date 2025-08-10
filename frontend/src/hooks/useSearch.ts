@@ -90,6 +90,7 @@ export function useSearch(): UseSearchReturn {
         // If search is complete or failed, stop polling
         if (response.data.status === 'completed' || response.data.status === 'failed') {
           console.log('Search finished with status:', response.data.status);
+          console.log('Current session before update:', currentSession);
           if (intervalRef.current) {
             clearInterval(intervalRef.current);
             intervalRef.current = null;
@@ -102,7 +103,19 @@ export function useSearch(): UseSearchReturn {
             const resultsResponse = await apiClient.getSearchResults(sessionId);
             console.log('Final results response:', resultsResponse);
             if (resultsResponse.success && resultsResponse.data) {
-              setCurrentSession(resultsResponse.data);
+              // Preserve the original session data and merge with results
+              setCurrentSession(prev => {
+                console.log('Setting currentSession with results, prev:', prev);
+                if (!prev) return resultsResponse.data || null;
+                const merged = {
+                  ...prev,
+                  ...resultsResponse.data,
+                  status: 'completed' as const,
+                  progress: 100
+                };
+                console.log('Merged session data:', merged);
+                return merged;
+              });
             }
           }
         }
@@ -149,7 +162,7 @@ export function useSearch(): UseSearchReturn {
       }
       setIsSearching(false);
     }
-  }, [isSearching]);
+  }, [isSearching, currentSession]);
 
   const startSearch = useCallback(async (usernames: string[], options: SearchOptions) => {
     try {
