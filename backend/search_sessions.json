@@ -1,0 +1,944 @@
+{
+  "4819af55-c459-4a60-b6a8-3c25f0bf69cf": {
+    "id": "4819af55-c459-4a60-b6a8-3c25f0bf69cf",
+    "usernames": [
+      "alice"
+    ],
+    "options": {
+      "topSites": 5,
+      "timeout": 30,
+      "useCookies": false,
+      "allSites": false,
+      "disableRecursiveSearch": false,
+      "disableExtracting": false,
+      "withDomains": false,
+      "proxy": null,
+      "torProxy": null,
+      "i2pProxy": null,
+      "permute": false,
+      "tags": [],
+      "siteList": []
+    },
+    "status": "completed",
+    "progress": 100,
+    "results": [
+      {
+        "username": "alice",
+        "sites": [
+          {
+            "siteName": "YouTube User",
+            "url": "https://www.youtube.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.youtube.com/@alice"
+          },
+          {
+            "siteName": "YouTube",
+            "url": "https://www.youtube.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.youtube.com/@alice"
+          },
+          {
+            "siteName": "Baidu",
+            "url": "https://tieba.baidu.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://tieba.baidu.com/home/main?un=alice"
+          }
+        ],
+        "extractedData": {},
+        "networkGraph": []
+      }
+    ],
+    "createdAt": "2025-08-10T10:15:33.830645",
+    "completedAt": "2025-08-10T10:15:36.303838"
+  },
+  "4f7c7bc3-b0d1-48f2-b614-628421ee13dd": {
+    "id": "4f7c7bc3-b0d1-48f2-b614-628421ee13dd",
+    "usernames": [
+      "simkjels"
+    ],
+    "options": {
+      "topSites": 500,
+      "timeout": 30,
+      "useCookies": false,
+      "allSites": false,
+      "disableRecursiveSearch": false,
+      "disableExtracting": false,
+      "withDomains": false,
+      "proxy": null,
+      "torProxy": null,
+      "i2pProxy": null,
+      "permute": false,
+      "tags": [],
+      "siteList": []
+    },
+    "status": "completed",
+    "progress": 100,
+    "results": [
+      {
+        "username": "simkjels",
+        "sites": [
+          {
+            "siteName": "Twitch",
+            "url": "https://www.twitch.tv/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://twitchtracker.com/simkjels"
+          },
+          {
+            "siteName": "YouTube User",
+            "url": "https://www.youtube.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.youtube.com/@simkjels"
+          },
+          {
+            "siteName": "YouTube",
+            "url": "https://www.youtube.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.youtube.com/@simkjels"
+          },
+          {
+            "siteName": "GitHub",
+            "url": "https://www.github.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://github.com/simkjels"
+          },
+          {
+            "siteName": "GitHubGist",
+            "url": "https://gist.github.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://gist.github.com/simkjels"
+          },
+          {
+            "siteName": "opensea.io",
+            "url": "https://opensea.io",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://opensea.io/accounts/simkjels"
+          },
+          {
+            "siteName": "Fiverr",
+            "url": "https://www.fiverr.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.fiverr.com/simkjels"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Brazil",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=simkjels&region=br"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] LAN",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=simkjels&region=lan"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Russia",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=simkjels&region=ru"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Europe Nordic & East",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=simkjels&region=eune"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Korea",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=simkjels&region=kr"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Oceania",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=simkjels&region=oce"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Vietnam",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=simkjels&region=vn"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Middle East",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=simkjels&region=me"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Taiwan",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=simkjels&region=tw"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Europe West",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=simkjels&region=euw"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Turkey",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=simkjels&region=tr"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] North America",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=simkjels&region=na"
+          },
+          {
+            "siteName": "Livemaster",
+            "url": "https://www.livemaster.ru",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.livemaster.ru/simkjels"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] LAS",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=simkjels&region=las"
+          },
+          {
+            "siteName": "OpenStreetMap",
+            "url": "https://www.openstreetmap.org/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.openstreetmap.org/user/simkjels"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Phillippines",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=simkjels&region=ph"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Singapore",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=simkjels&region=sg"
+          },
+          {
+            "siteName": "IFTTT",
+            "url": "https://www.ifttt.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.ifttt.com/p/simkjels"
+          },
+          {
+            "siteName": "Kaskus",
+            "url": "https://www.kaskus.co.id",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.kaskus.co.id/@simkjels"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Japan",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=simkjels&region=jp"
+          },
+          {
+            "siteName": "Gog",
+            "url": "https://www.gog.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.gog.com/u/simkjels"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Thailand",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=simkjels&region=th"
+          },
+          {
+            "siteName": "Docker Hub",
+            "url": "https://hub.docker.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://hub.docker.com/u/simkjels/"
+          },
+          {
+            "siteName": "Pandia",
+            "url": "https://pandia.ru",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://pandia.ru/user/profile/simkjels"
+          },
+          {
+            "siteName": "BitBucket",
+            "url": "https://bitbucket.org/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://bitbucket.org/simkjels/"
+          },
+          {
+            "siteName": "authorSTREAM",
+            "url": "http://www.authorstream.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "http://www.authorstream.com/author/simkjels/"
+          },
+          {
+            "siteName": "last.fm",
+            "url": "https://last.fm/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://last.fm/user/simkjels"
+          },
+          {
+            "siteName": "Gravatar",
+            "url": "http://en.gravatar.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "http://en.gravatar.com/simkjels"
+          },
+          {
+            "siteName": "VSCO",
+            "url": "https://vsco.co/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://vsco.co/simkjels"
+          },
+          {
+            "siteName": "forums.bulbagarden.net",
+            "url": "http://forums.bulbagarden.net",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "http://forums.bulbagarden.net/members/?username=simkjels"
+          },
+          {
+            "siteName": "3ddd",
+            "url": "https://3ddd.ru",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://3ddd.ru/users/simkjels"
+          },
+          {
+            "siteName": "hashnode",
+            "url": "https://hashnode.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://hashnode.com/@simkjels"
+          },
+          {
+            "siteName": "Blu-ray",
+            "url": "https://forum.blu-ray.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://forum.blu-ray.com/member.php?username=simkjels"
+          },
+          {
+            "siteName": "BikeRadar",
+            "url": "https://forum.bikeradar.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://forum.bikeradar.com/profile/simkjels"
+          },
+          {
+            "siteName": "forums.serebii.net",
+            "url": "https://forums.serebii.net",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://forums.serebii.net/members/?username=simkjels"
+          },
+          {
+            "siteName": "getmyuni",
+            "url": "https://getmyuni.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.getmyuni.com/user/simkjels"
+          },
+          {
+            "siteName": "Picsart",
+            "url": "https://picsart.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://picsart.com/u/simkjels"
+          },
+          {
+            "siteName": "ProductHunt",
+            "url": "https://www.producthunt.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.producthunt.com/@simkjels"
+          },
+          {
+            "siteName": "AdultFriendFinder",
+            "url": "https://adultfriendfinder.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://adultfriendfinder.com/profile/simkjels"
+          }
+        ],
+        "extractedData": {},
+        "networkGraph": []
+      }
+    ],
+    "createdAt": "2025-08-10T10:16:12.795489",
+    "completedAt": "2025-08-10T10:16:49.067030"
+  },
+  "efd0f613-6c5d-476c-bd1b-0378fe4dc7c0": {
+    "id": "efd0f613-6c5d-476c-bd1b-0378fe4dc7c0",
+    "usernames": [
+      "emilkje"
+    ],
+    "options": {
+      "topSites": 500,
+      "timeout": 30,
+      "useCookies": false,
+      "allSites": false,
+      "disableRecursiveSearch": false,
+      "disableExtracting": false,
+      "withDomains": false,
+      "proxy": null,
+      "torProxy": null,
+      "i2pProxy": null,
+      "permute": false,
+      "tags": [],
+      "siteList": []
+    },
+    "status": "completed",
+    "progress": 100,
+    "results": [
+      {
+        "username": "emilkje",
+        "sites": [
+          {
+            "siteName": "SoundCloud",
+            "url": "https://soundcloud.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://soundcloud.com/emilkje"
+          },
+          {
+            "siteName": "YouTube User",
+            "url": "https://www.youtube.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.youtube.com/@emilkje"
+          },
+          {
+            "siteName": "YouTube",
+            "url": "https://www.youtube.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.youtube.com/@emilkje"
+          },
+          {
+            "siteName": "GitHub",
+            "url": "https://www.github.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://github.com/emilkje"
+          },
+          {
+            "siteName": "Unsplash",
+            "url": "https://unsplash.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://unsplash.com/@emilkje"
+          },
+          {
+            "siteName": "Chess",
+            "url": "https://www.chess.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.chess.com/member/emilkje"
+          },
+          {
+            "siteName": "Steam",
+            "url": "https://steamcommunity.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://steamcommunity.com/id/emilkje"
+          },
+          {
+            "siteName": "GitHubGist",
+            "url": "https://gist.github.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://gist.github.com/emilkje"
+          },
+          {
+            "siteName": "opensea.io",
+            "url": "https://opensea.io",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://opensea.io/accounts/emilkje"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Brazil",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=emilkje&region=br"
+          },
+          {
+            "siteName": "Twitch",
+            "url": "https://www.twitch.tv/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://twitchtracker.com/emilkje"
+          },
+          {
+            "siteName": "Scratch",
+            "url": "https://scratch.mit.edu/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://scratch.mit.edu/users/emilkje"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Korea",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=emilkje&region=kr"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Taiwan",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=emilkje&region=tw"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Vietnam",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=emilkje&region=vn"
+          },
+          {
+            "siteName": "Redbubble",
+            "url": "https://www.redbubble.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.redbubble.com/people/emilkje"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Thailand",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=emilkje&region=th"
+          },
+          {
+            "siteName": "Livemaster",
+            "url": "https://www.livemaster.ru",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.livemaster.ru/emilkje"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Europe West",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=emilkje&region=euw"
+          },
+          {
+            "siteName": "Roblox",
+            "url": "https://www.roblox.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.roblox.com/user.aspx?username=emilkje"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] LAS",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=emilkje&region=las"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Turkey",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=emilkje&region=tr"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Middle East",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=emilkje&region=me"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Japan",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=emilkje&region=jp"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] LAN",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=emilkje&region=lan"
+          },
+          {
+            "siteName": "Codecademy",
+            "url": "https://www.codecademy.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.codecademy.com/profiles/emilkje"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Phillippines",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=emilkje&region=ph"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Oceania",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=emilkje&region=oce"
+          },
+          {
+            "siteName": "steemit",
+            "url": "https://steemit.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://steemit.com/@emilkje"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Europe Nordic & East",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=emilkje&region=eune"
+          },
+          {
+            "siteName": "Docker Hub",
+            "url": "https://hub.docker.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://hub.docker.com/u/emilkje/"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] North America",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=emilkje&region=na"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Singapore",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=emilkje&region=sg"
+          },
+          {
+            "siteName": "DeviantART",
+            "url": "https://deviantart.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://emilkje.deviantart.com"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Russia",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=emilkje&region=ru"
+          },
+          {
+            "siteName": "last.fm",
+            "url": "https://last.fm/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://last.fm/user/emilkje"
+          },
+          {
+            "siteName": "authorSTREAM",
+            "url": "http://www.authorstream.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "http://www.authorstream.com/author/emilkje/"
+          },
+          {
+            "siteName": "forums.bulbagarden.net",
+            "url": "http://forums.bulbagarden.net",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "http://forums.bulbagarden.net/members/?username=emilkje"
+          },
+          {
+            "siteName": "forums.serebii.net",
+            "url": "https://forums.serebii.net",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://forums.serebii.net/members/?username=emilkje"
+          },
+          {
+            "siteName": "BitBucket",
+            "url": "https://bitbucket.org/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://bitbucket.org/emilkje/"
+          },
+          {
+            "siteName": "Pandia",
+            "url": "https://pandia.ru",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://pandia.ru/user/profile/emilkje"
+          },
+          {
+            "siteName": "Freecodecamp",
+            "url": "https://www.freecodecamp.org/forum/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.freecodecamp.org/forum/u/emilkje/summary"
+          },
+          {
+            "siteName": "IFTTT",
+            "url": "https://www.ifttt.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.ifttt.com/p/emilkje"
+          },
+          {
+            "siteName": "Kaskus",
+            "url": "https://www.kaskus.co.id",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.kaskus.co.id/@emilkje"
+          },
+          {
+            "siteName": "GitLab",
+            "url": "https://gitlab.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://gitlab.com/emilkje"
+          },
+          {
+            "siteName": "NPM",
+            "url": "https://www.npmjs.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.npmjs.com/~emilkje"
+          },
+          {
+            "siteName": "getmyuni",
+            "url": "https://getmyuni.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.getmyuni.com/user/emilkje"
+          },
+          {
+            "siteName": "Picsart",
+            "url": "https://picsart.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://picsart.com/u/emilkje"
+          },
+          {
+            "siteName": "AdultFriendFinder",
+            "url": "https://adultfriendfinder.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://adultfriendfinder.com/profile/emilkje"
+          },
+          {
+            "siteName": "hashnode",
+            "url": "https://hashnode.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://hashnode.com/@emilkje"
+          },
+          {
+            "siteName": "Gog",
+            "url": "https://www.gog.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.gog.com/u/emilkje"
+          },
+          {
+            "siteName": "BikeRadar",
+            "url": "https://forum.bikeradar.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://forum.bikeradar.com/profile/emilkje"
+          },
+          {
+            "siteName": "3ddd",
+            "url": "https://3ddd.ru",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://3ddd.ru/users/emilkje"
+          },
+          {
+            "siteName": "Blu-ray",
+            "url": "https://forum.blu-ray.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://forum.blu-ray.com/member.php?username=emilkje"
+          },
+          {
+            "siteName": "Launchpad",
+            "url": "https://launchpad.net/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://launchpad.net/~emilkje"
+          },
+          {
+            "siteName": "Untappd",
+            "url": "https://untappd.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://untappd.com/user/emilkje"
+          }
+        ],
+        "extractedData": {},
+        "networkGraph": []
+      }
+    ],
+    "createdAt": "2025-08-10T10:18:25.867800",
+    "completedAt": "2025-08-10T10:19:00.872208"
+  }
+}

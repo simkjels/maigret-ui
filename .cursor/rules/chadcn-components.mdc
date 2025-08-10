@@ -1,0 +1,23 @@
+---
+description: chadcn frontend components
+globs:
+alwaysApply: false
+---
+
+# Chadcn/UI Frontend Components
+
+## Usage Rule
+When asked to use chadcn, use the MCP server
+
+## Planning Rule
+When asked to plan using anything related to chadcn:
+
+- Use chadcn during planning
+- Apply components wherever components are applicable
+- Use whole blocks where possible (e.g. login page, calendar etc.)
+
+## Implementation Rule
+When implementing:
+
+1. First call demo tool to see how it is used
+2. Implement components correctly

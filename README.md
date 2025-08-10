@@ -1,206 +1,206 @@
-# Maigret
+# Maigret OSINT Tool - Modern Frontend
 
-<p align="center">
-  <p align="center">
-    <a href="https://pypi.org/project/maigret/">
-        <img alt="PyPI version badge for Maigret" src="https://img.shields.io/pypi/v/maigret?style=flat-square" />
-    </a>
-    <a href="https://pypi.org/project/maigret/">  
-        <img alt="PyPI download count for Maigret" src="https://img.shields.io/pypi/dw/maigret?style=flat-square" />
-    </a>
-    <a href="https://github.com/soxoj/maigret">
-        <img alt="Minimum Python version required: 3.10+" src="https://img.shields.io/badge/Python-3.10%2B-brightgreen?style=flat-square" />
-    </a>
-    <a href="https://github.com/soxoj/maigret/blob/main/LICENSE">
-        <img alt="License badge for Maigret" src="https://img.shields.io/github/license/soxoj/maigret?style=flat-square" />
-    </a>
-    <a href="https://github.com/soxoj/maigret">
-        <img alt="View count for Maigret project" src="https://komarev.com/ghpvc/?username=maigret&color=brightgreen&label=views&style=flat-square" />
-    </a>
-  </p>
-  <p align="center">
-    <img src="https://raw.githubusercontent.com/soxoj/maigret/main/static/maigret.png" height="300"/>
-  </p>
-</p>
+A beautiful, modern frontend for the Maigret OSINT tool built with Next.js and chadcn/ui components.
 
-<i>The Commissioner Jules Maigret is a fictional French police detective, created by Georges Simenon. His investigation method is based on understanding the personality of different people and their interactions.</i>
+## Features
 
-<b>👉👉👉 [Online Telegram bot](https://t.me/osint_maigret_bot)</b>
+- 🎨 **Modern UI**: Beautiful interface built with chadcn/ui components
+- 🔍 **Advanced Search**: Comprehensive search options with tag filtering
+- 📊 **Real-time Progress**: Live search progress tracking
+- 📱 **Responsive Design**: Works perfectly on desktop and mobile
+- 🎯 **Results Visualization**: Interactive results display with export options
+- ⚡ **Fast Performance**: Built with Next.js 14 and optimized for speed
 
-## About
+## Tech Stack
 
-**Maigret** collects a dossier on a person **by username only**, checking for accounts on a huge number of sites and gathering all the available information from web pages. No API keys are required. Maigret is an easy-to-use and powerful fork of [Sherlock](https://github.com/sherlock-project/sherlock).
+### Frontend
+- **Next.js 14** - React framework with App Router
+- **chadcn/ui** - Beautiful, accessible UI components
+- **Tailwind CSS** - Utility-first CSS framework
+- **TypeScript** - Type-safe JavaScript
+- **Lucide React** - Beautiful icons
 
-Currently supports more than 3000 sites ([full list](https://github.com/soxoj/maigret/blob/main/sites.md)), search is launched against 500 popular sites in descending order of popularity by default. Also supported checking Tor sites, I2P sites, and domains (via DNS resolving).
+### Backend
+- **FastAPI** - Modern Python web framework
+- **Maigret** - OSINT search engine integration
+- **Uvicorn** - ASGI server
 
-## Powered By Maigret
+## Quick Start
 
-These are professional tools for social media content analysis and OSINT investigations that use Maigret (banners are clickable).
+### Prerequisites
 
-<a href="https://github.com/SocialLinks-IO/sociallinks-api"><img height="60" alt="Social Links API" src="https://github.com/user-attachments/assets/789747b2-d7a0-4d4e-8868-ffc4427df660"></a>
-<a href="https://sociallinks.io/products/sl-crimewall"><img height="60" alt="Social Links Crimewall" src="https://github.com/user-attachments/assets/0b18f06c-2f38-477b-b946-1be1a632a9d1"></a>
-<a href="https://usersearch.ai/"><img height="60" alt="UserSearch" src="https://github.com/user-attachments/assets/66daa213-cf7d-40cf-9267-42f97cf77580"></a>
+- Node.js 18+ 
+- Python 3.10+
+- Git
 
-## Main features
+### Installation
 
-* Profile page parsing, [extraction](https://github.com/soxoj/socid_extractor) of personal info, links to other profiles, etc.
-* Recursive search by new usernames and other IDs found
-* Search by tags (site categories, countries)
-* Censorship and captcha detection
-* Requests retries
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd maigret-ui
+   ```
 
-See the full description of Maigret features [in the documentation](https://maigret.readthedocs.io/en/latest/features.html).
+2. **Set up the frontend**
+   ```bash
+   cd frontend
+   npm install
+   ```
 
-## Installation
+3. **Set up the backend**
+   ```bash
+   cd ../backend
+   python3 -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   pip install -r requirements.txt
+   ```
 
-‼️ Maigret is available online via [official Telegram bot](https://t.me/osint_maigret_bot). Consider using it if you don't want to install anything.
+4. **Start the development servers**
 
-### Windows
+   **Backend (Terminal 1):**
+   ```bash
+   cd backend
+   source venv/bin/activate
+   python main.py
+   ```
 
-Standalone EXE-binaries for Windows are located in [Releases section](https://github.com/soxoj/maigret/releases) of GitHub repository.
+   **Frontend (Terminal 2):**
+   ```bash
+   cd frontend
+   npm run dev
+   ```
 
-Video guide on how to run it: https://youtu.be/qIgwTZOmMmM.
+5. **Open your browser**
+   - Frontend: http://localhost:3000
+   - Backend API: http://localhost:8000
+   - API Docs: http://localhost:8000/docs
 
-### Installation in Cloud Shells
+## Usage
 
-You can launch Maigret using cloud shells and Jupyter notebooks. Press one of the buttons below and follow the instructions to launch it in your browser.
+### Basic Search
 
-[![Open in Cloud Shell](https://user-images.githubusercontent.com/27065646/92304704-8d146d80-ef80-11ea-8c29-0deaabb1c702.png)](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/soxoj/maigret&tutorial=README.md)
-<a href="https://repl.it/github/soxoj/maigret"><img src="https://replit.com/badge/github/soxoj/maigret" alt="Run on Replit" height="50"></a>
+1. Navigate to the search page
+2. Enter one or more usernames (separated by spaces or commas)
+3. Configure search options:
+   - **Number of Sites**: How many sites to check (default: 500)
+   - **Timeout**: Request timeout in seconds (default: 30)
+   - **Tags**: Filter sites by categories (gaming, coding, social, etc.)
+   - **Specific Sites**: Choose particular sites to search
 
-<a href="https://colab.research.google.com/gist/soxoj/879b51bc3b2f8b695abb054090645000/maigret-collab.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" height="45"></a>
-<a href="https://mybinder.org/v2/gist/soxoj/9d65c2f4d3bec5dd25949197ea73cf3a/HEAD"><img src="https://mybinder.org/badge_logo.svg" alt="Open In Binder" height="45"></a>
+### Advanced Options
 
-### Local installation
+- **Search All Sites**: Check all available sites (may take longer)
+- **Use Cookies**: Enable cookie support for sites that require it
+- **Disable Recursive Search**: Skip finding additional usernames
+- **Disable Information Extraction**: Skip extracting personal data
+- **Proxy Settings**: Configure HTTP, TOR, or I2P proxies
 
-Maigret can be installed using pip, Docker, or simply can be launched from the cloned repo.
+### Viewing Results
 
+- **Profiles Found**: Shows only sites where the username was found
+- **All Results**: Shows results for all checked sites
+- **Export Options**: Download results in CSV, JSON, PDF, or HTML format
 
-**NOTE**: Python 3.10 or higher and pip is required, **Python 3.11 is recommended.**
+## Project Structure
+
+```
+maigret-ui/
+├── frontend/                 # Next.js application
+│   ├── src/
+│   │   ├── app/             # App Router pages
+│   │   ├── components/      # Reusable components
+│   │   ├── hooks/           # Custom React hooks
+│   │   ├── lib/             # Utilities and API client
+│   │   └── types/           # TypeScript definitions
+│   └── package.json
+├── backend/                  # FastAPI server
+│   ├── main.py              # Main application
+│   ├── requirements.txt     # Python dependencies
+│   └── venv/                # Virtual environment
+└── README.md
+```
+
+## API Endpoints
+
+### Search
+- `POST /api/search` - Start a new search
+- `GET /api/search/{sessionId}` - Get search status
+- `GET /api/results/{sessionId}` - Get search results
+
+### Data
+- `GET /api/sites` - Get available sites
+- `GET /api/tags` - Get available tags
+
+### Export
+- `POST /api/export` - Export results
+- `GET /api/reports/{filename}` - Download report file
+
+### Health
+- `GET /api/health` - API health check
+
+## Development
+
+### Frontend Development
 
 ```bash
-# install from pypi
-pip3 install maigret
-
-# usage
-maigret username
+cd frontend
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run lint         # Run ESLint
 ```
 
-### Cloning a repository
+### Backend Development
 
 ```bash
-# or clone and install manually
-git clone https://github.com/soxoj/maigret && cd maigret
-
-# build and install
-pip3 install .
-
-# usage
-maigret username
+cd backend
+source venv/bin/activate
+python main.py       # Start development server
 ```
 
-### Docker
+### Adding New Components
+
+The project uses chadcn/ui components. To add new components:
 
 ```bash
-# official image
-docker pull soxoj/maigret
-
-# usage
-docker run -v /mydir:/app/reports soxoj/maigret:latest username --html
-
-# manual build
-docker build -t maigret .
+cd frontend
+npx shadcn@latest add <component-name>
 ```
 
-## Usage examples
+### Environment Variables
 
-```bash
-# make HTML, PDF, and Xmind8 reports
-maigret user --html
-maigret user --pdf
-maigret user --xmind #Output not compatible with xmind 2022+
+Create a `.env.local` file in the frontend directory:
 
-# search on sites marked with tags photo & dating
-maigret user --tags photo,dating
-
-# search on sites marked with tag us
-maigret user --tags us
-
-# search for three usernames on all available sites
-maigret user1 user2 user3 -a
+```env
+NEXT_PUBLIC_API_URL=http://localhost:8000
 ```
-
-Use `maigret --help` to get full options description. Also options [are documented](https://maigret.readthedocs.io/en/latest/command-line-options.html).
-
-### Web interface
-
-You can run Maigret with a web interface, where you can view the graph with results and download reports of all formats on a single page.
-
-<details>
-<summary>Web Interface Screenshots</summary>
-
-![Web interface: how to start](https://raw.githubusercontent.com/soxoj/maigret/main/static/web_interface_screenshot_start.png)
-
-![Web interface: results](https://raw.githubusercontent.com/soxoj/maigret/main/static/web_interface_screenshot.png)
-
-</details>
-
-Instructions:
-
-1. Run Maigret with the ``--web`` flag and specify the port number.
-
-```console
-maigret --web 5000
-```
-2. Open http://127.0.0.1:5000 in your browser and enter one or more usernames to make a search.
-
-3. Wait a bit for the search to complete and view the graph with results, the table with all accounts found, and download reports of all formats.
 
 ## Contributing
 
-Maigret has open-source code, so you may contribute your own sites by adding them to `data.json` file, or bring changes to it's code!
-
-For more information about development and contribution, please read the [development documentation](https://maigret.readthedocs.io/en/latest/development.html).
-
-## Demo with page parsing and recursive username search
-
-### Video (asciinema)
-
-<a href="https://asciinema.org/a/Ao0y7N0TTxpS0pisoprQJdylZ">
-  <img src="https://asciinema.org/a/Ao0y7N0TTxpS0pisoprQJdylZ.svg" alt="asciicast" width="600">
-</a>
-
-### Reports
-
-[PDF report](https://raw.githubusercontent.com/soxoj/maigret/main/static/report_alexaimephotographycars.pdf), [HTML report](https://htmlpreview.github.io/?https://raw.githubusercontent.com/soxoj/maigret/main/static/report_alexaimephotographycars.html)
-
-![HTML report screenshot](https://raw.githubusercontent.com/soxoj/maigret/main/static/report_alexaimephotography_html_screenshot.png)
-
-![XMind 8 report screenshot](https://raw.githubusercontent.com/soxoj/maigret/main/static/report_alexaimephotography_xmind_screenshot.png)
-
-[Full console output](https://raw.githubusercontent.com/soxoj/maigret/main/static/recursive_search.md)
-
-## Disclaimer
-
-**This tool is intended for educational and lawful purposes only.** The developers do not endorse or encourage any illegal activities or misuse of this tool. Regulations regarding the collection and use of personal data vary by country and region, including but not limited to GDPR in the EU, CCPA in the USA, and similar laws worldwide.
-
-It is your sole responsibility to ensure that your use of this tool complies with all applicable laws and regulations in your jurisdiction. Any illegal use of this tool is strictly prohibited, and you are fully accountable for your actions.
-
-The authors and developers of this tool bear no responsibility for any misuse or unlawful activities conducted by its users.
-
-## Feedback
-
-If you have any questions, suggestions, or feedback, please feel free to [open an issue](https://github.com/soxoj/maigret/issues), create a [GitHub discussion](https://github.com/soxoj/maigret/discussions), or contact the author directly via [Telegram](https://t.me/soxoj).
-
-## SOWEL classification
-
-This tool uses the following OSINT techniques:
-- [SOTL-2.2. Search For Accounts On Other Platforms](https://sowel.soxoj.com/other-platform-accounts)
-- [SOTL-6.1. Check Logins Reuse To Find Another Account](https://sowel.soxoj.com/logins-reuse)
-- [SOTL-6.2. Check Nicknames Reuse To Find Another Account](https://sowel.soxoj.com/nicknames-reuse) 
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## License
 
-MIT © [Maigret](https://github.com/soxoj/maigret)<br/>
-MIT © [Sherlock Project](https://github.com/sherlock-project/)<br/>
-Original Creator of Sherlock Project - [Siddharth Dushantha](https://github.com/sdushantha)
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- [Maigret](https://github.com/soxoj/maigret) - The original OSINT tool
+- [chadcn/ui](https://ui.shadcn.com/) - Beautiful UI components
+- [Next.js](https://nextjs.org/) - React framework
+- [FastAPI](https://fastapi.tiangolo.com/) - Python web framework
+
+## Support
+
+If you encounter any issues or have questions:
+
+1. Check the [Issues](https://github.com/your-repo/issues) page
+2. Create a new issue with detailed information
+3. Join our community discussions
+
+---
+
+**Note**: This tool is intended for educational and lawful purposes only. Please ensure compliance with all applicable laws and regulations in your jurisdiction.
