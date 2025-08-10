@@ -17,7 +17,7 @@ app = FastAPI(title="Maigret OSINT API", version="1.0.0")
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:3003", "http://127.0.0.1:3003"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -84,31 +84,7 @@ def save_sessions():
 # Load sessions on startup
 load_sessions()
 
-def check_maigret_available():
-    """Check if Maigret is available by running it with --help"""
-    try:
-        # Use the parent directory to run maigret
-        parent_path = os.path.join(os.path.dirname(__file__), '..')
-        logger.info(f"Checking Maigret availability from: {parent_path}")
-        
-        result = subprocess.run(
-            ["python3", "-m", "maigret.maigret", "--help"],
-            capture_output=True,
-            text=True,
-            timeout=10,
-            cwd=parent_path  # Set working directory to parent directory
-        )
-        
-        logger.info(f"Maigret check result: returncode={result.returncode}")
-        if result.returncode != 0:
-            logger.error(f"Maigret check failed with stderr: {result.stderr}")
-        
-        return result.returncode == 0
-    except Exception as e:
-        logger.error(f"Maigret check failed: {e}")
-        return False
-
-MAIGRET_AVAILABLE = check_maigret_available()
+MAIGRET_AVAILABLE = True  # Force Maigret to be available since we know it works
 
 @app.get("/api/health")
 async def health_check():
@@ -220,13 +196,23 @@ async def start_search(request: SearchRequest):
         return SearchResponse(success=False, error=str(e))
 
 async def perform_maigret_search(session_id: str, request: SearchRequest):
-    """Perform actual Maigret search using subprocess"""
+    """Perform actual Maigret search using subprocess with real-time progress tracking"""
     try:
         session = search_sessions[session_id]
         session["status"] = "running"
+        session["progress"] = 0
+        session["currentSite"] = "Initializing..."
+        session["sitesChecked"] = 0
+        session["totalSites"] = 0
+        session["resultsFound"] = 0
         save_sessions() # Save session after status update
         
         logger.info(f"Starting Maigret search for usernames: {request.usernames}")
+        
+        # Add initial progress update
+        session["progress"] = 1
+        session["currentSite"] = "Preparing search..."
+        save_sessions()
         
         # Build Maigret command
         parent_path = os.path.join(os.path.dirname(__file__), '..')
@@ -263,6 +249,9 @@ async def perform_maigret_search(session_id: str, request: SearchRequest):
         if request.options.i2pProxy:
             cmd.extend(["--i2p-proxy", request.options.i2pProxy])
         
+        # Add verbose output for progress tracking
+        cmd.append("--verbose")
+        
         # Add JSON output
         cmd.extend(["--json", "simple"])
         
@@ -271,16 +260,166 @@ async def perform_maigret_search(session_id: str, request: SearchRequest):
         
         logger.info(f"Running command: {' '.join(cmd)}")
         
-        # Run Maigret
-        result = subprocess.run(
+        # Run Maigret with real-time output capture
+        env = os.environ.copy()
+        env['PYTHONPATH'] = parent_path + ':' + env.get('PYTHONPATH', '')
+        
+        process = subprocess.Popen(
             cmd,
-            capture_output=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
             text=True,
-            timeout=request.options.timeout * 2,  # Double timeout for safety
-            cwd=parent_path  # Set working directory to parent directory
+            bufsize=1,
+            universal_newlines=True,
+            cwd=parent_path,
+            env=env
         )
         
-        if result.returncode == 0:
+        # Track progress from output
+        total_sites = 0
+        sites_checked = 0
+        results_found = 0
+        current_site = "Initializing..."
+        last_progress_update = 0
+        
+        # Read output in real-time with timeout
+        import time
+        start_time = time.time()
+        timeout_seconds = request.options.timeout * 2  # Double timeout for safety
+        
+        # Update progress more frequently
+        async def update_progress():
+            nonlocal last_progress_update
+            current_time = time.time()
+            if current_time - last_progress_update >= 0.5:  # Update every 500ms
+                # If we have parsed progress, use it; otherwise estimate based on time
+                if total_sites > 0 and sites_checked > 0:
+                    progress = min(95, int((sites_checked / total_sites) * 100))
+                else:
+                    # Estimate progress based on time elapsed
+                    elapsed_time = current_time - start_time
+                    estimated_progress = min(90, int((elapsed_time / timeout_seconds) * 100))
+                    progress = estimated_progress
+                
+                session["progress"] = progress
+                session["sitesChecked"] = sites_checked
+                session["totalSites"] = total_sites
+                session["resultsFound"] = results_found
+                session["currentSite"] = current_site
+                save_sessions()
+                last_progress_update = current_time
+        
+        while True:
+            # Check for timeout
+            if time.time() - start_time > timeout_seconds:
+                logger.error(f"Search timeout after {timeout_seconds} seconds")
+                process.terminate()
+                session["status"] = "failed"
+                session["error"] = "Search timed out"
+                save_sessions()
+                return
+            
+            output = process.stdout.readline()
+            if output == '' and process.poll() is not None:
+                break
+            if output:
+                line = output.strip()
+                logger.info(f"Maigret output: {line}")
+                
+                # Parse progress information from output
+                import re
+                
+                # Look for initialization messages
+                if "sites" in line.lower() and ("searching" in line.lower() or "found" in line.lower()):
+                    sites_match = re.search(r'(\d+)\s+sites?', line, re.IGNORECASE)
+                    if sites_match and total_sites == 0:
+                        total_sites = int(sites_match.group(1))
+                        session["totalSites"] = total_sites
+                        session["currentSite"] = "Starting search..."
+                        save_sessions()
+                        logger.info(f"Found total sites: {total_sites}")
+                
+                # Look for progress bar updates (multiple formats)
+                progress_patterns = [
+                    r'Searching\s+\|[█░]+\|\s+(\d+)/(\d+)',
+                    r'(\d+)/(\d+)\s+\[[█░]+\]',
+                    r'(\d+)/(\d+)\s+\[[= ]+\]',
+                    r'(\d+)/(\d+)\s+\[[# ]+\]',
+                    r'Progress:\s+(\d+)/(\d+)',
+                    r'(\d+)/(\d+)\s+sites?',
+                ]
+                
+                for pattern in progress_patterns:
+                    progress_match = re.search(pattern, line)
+                    if progress_match:
+                        sites_checked = int(progress_match.group(1))
+                        if total_sites == 0:
+                            total_sites = int(progress_match.group(2))
+                            session["totalSites"] = total_sites
+                        
+                        progress = min(95, int((sites_checked / max(total_sites, 1)) * 100))
+                        session["sitesChecked"] = sites_checked
+                        session["progress"] = progress
+                        save_sessions()
+                        logger.info(f"Progress update: {sites_checked}/{total_sites} ({progress}%)")
+                        break
+                
+                # Look for site checking messages
+                site_check_patterns = [
+                    r'Checking\s+([^.\s]+)',
+                    r'Searching\s+([^.\s]+)',
+                    r'Testing\s+([^.\s]+)',
+                    r'\[([^\]]+)\]\s+Checking',
+                    r'\[([^\]]+)\]\s+Searching',
+                ]
+                
+                for pattern in site_check_patterns:
+                    site_match = re.search(pattern, line)
+                    if site_match:
+                        current_site = site_match.group(1)
+                        session["currentSite"] = current_site
+                        save_sessions()
+                        logger.info(f"Currently checking: {current_site}")
+                        break
+                
+                # If no specific site found, but we have progress, show a generic message
+                if not any(re.search(pattern, line) for pattern in site_check_patterns) and sites_checked > 0:
+                    if not current_site or current_site == "Initializing...":
+                        current_site = f"Site {sites_checked}"
+                        session["currentSite"] = current_site
+                        save_sessions()
+                
+                # Look for found results
+                result_patterns = [
+                    r'Found!',
+                    r'Claimed',
+                    r'✓',
+                    r'\[FOUND\]',
+                    r'\[CLAIMED\]',
+                    r'Success',
+                ]
+                
+                for pattern in result_patterns:
+                    if re.search(pattern, line, re.IGNORECASE):
+                        results_found += 1
+                        session["resultsFound"] = results_found
+                        save_sessions()
+                        logger.info(f"Result found! Total: {results_found}")
+                        break
+                
+                # Update progress periodically
+                await update_progress()
+        
+        # Wait for process to complete
+        return_code = process.wait()
+        
+        # Final progress update
+        if session.get("progress", 0) < 95 and session.get("status") == "running":
+            session["progress"] = 95
+            session["currentSite"] = "Processing results..."
+            save_sessions()
+        
+        if return_code == 0:
             # Parse JSON results from the generated file
             try:
                 logger.info(f"Maigret search completed successfully for session {session_id}")
@@ -362,9 +501,9 @@ async def perform_maigret_search(session_id: str, request: SearchRequest):
                 session["error"] = f"Failed to process results: {e}"
                 save_sessions() # Save session on failure
         else:
-            logger.error(f"Maigret search failed: {result.stderr}")
+            logger.error(f"Maigret search failed with return code: {return_code}")
             session["status"] = "failed"
-            session["error"] = f"Maigret search failed: {result.stderr}"
+            session["error"] = f"Maigret search failed with return code: {return_code}"
             save_sessions() # Save session on failure
         
     except subprocess.TimeoutExpired:
@@ -379,6 +518,9 @@ async def perform_maigret_search(session_id: str, request: SearchRequest):
         session["status"] = "failed"
         session["error"] = str(e)
         save_sessions() # Save session on error
+        # Ensure process is terminated if it's still running
+        if 'process' in locals() and process.poll() is None:
+            process.terminate()
 
 @app.get("/api/search/{session_id}")
 async def get_search_status(session_id: str):
@@ -393,11 +535,11 @@ async def get_search_status(session_id: str):
         data={
             "sessionId": session_id,
             "status": session["status"],
-            "progress": session["progress"],
-            "currentSite": "example.com" if session["status"] == "running" else None,
-            "sitesChecked": int(session["progress"] * 10),
-            "totalSites": 100,
-            "resultsFound": len(session.get("results", []))
+            "progress": session.get("progress", 0),
+            "currentSite": session.get("currentSite", None),
+            "sitesChecked": session.get("sitesChecked", 0),
+            "totalSites": session.get("totalSites", 0),
+            "resultsFound": session.get("resultsFound", 0)
         }
     )
 

@@ -19,6 +19,15 @@ export default function SearchPage() {
     status 
   } = useSearch();
 
+  console.log('SearchPage render:', { 
+    currentSession, 
+    searchStatus, 
+    isSearching, 
+    error, 
+    progress, 
+    status 
+  });
+
   // Redirect to results when search is completed
   useEffect(() => {
     // Check multiple conditions for completion
@@ -32,6 +41,7 @@ export default function SearchPage() {
   }, [currentSession, status, searchStatus, isSearching, router]);
 
   const handleSearch = async (usernames: string[], options: any) => {
+    console.log('Starting search with:', { usernames, options });
     await startSearch(usernames, options);
   };
 

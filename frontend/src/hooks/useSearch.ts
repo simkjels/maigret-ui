@@ -71,6 +71,7 @@ export function useSearch(): UseSearchReturn {
       
       if (response.success && response.data) {
         console.log('Setting searchStatus to:', response.data);
+        console.log('Previous searchStatus was:', searchStatus);
         setSearchStatus(response.data);
         
         // Update currentSession status
@@ -155,7 +156,7 @@ export function useSearch(): UseSearchReturn {
       }
       setIsSearching(false);
     }
-  }, [isSearching, currentSession]);
+  }, [isSearching, currentSession, searchStatus]);
 
   const startSearch = useCallback(async (usernames: string[], options: SearchOptions) => {
     try {
@@ -182,11 +183,14 @@ export function useSearch(): UseSearchReturn {
       sessionIdRef.current = response.data.id;
       console.log('Search session created:', response.data);
       
+      // Check status immediately to get initial state
+      await refreshStatus();
+      
       // Start polling for status updates
       const interval = setInterval(() => {
         console.log('Polling interval triggered');
         refreshStatus();
-      }, 2000); // Poll every 2 seconds
+      }, 1000); // Poll every 1 second for more frequent updates
       
       intervalRef.current = interval;
       pollingStartTimeRef.current = Date.now(); // Set start time for polling duration check

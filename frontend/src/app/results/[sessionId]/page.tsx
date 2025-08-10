@@ -19,17 +19,42 @@ export default function ResultsPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    console.log('Results page useEffect triggered with sessionId:', sessionId);
+    
     const loadResults = async () => {
       try {
         setLoading(true);
+        setError(null);
+        console.log('Loading results for session:', sessionId);
+        
+        // Add a small delay to see if the issue is timing-related
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
         const response = await apiClient.getSearchResults(sessionId);
+        console.log('API response:', response);
         
         if (response.success && response.data) {
-          setSession(response.data);
+          try {
+            // Convert string dates to Date objects, with error handling
+            const sessionData = {
+              ...response.data,
+              createdAt: response.data.createdAt ? new Date(response.data.createdAt) : new Date(),
+              completedAt: response.data.completedAt ? new Date(response.data.completedAt) : undefined
+            };
+            console.log('Processed session data:', sessionData);
+            setSession(sessionData);
+          } catch (dataError) {
+            console.error('Data processing error:', dataError);
+            // If date parsing fails, use the original data without date conversion
+            console.log('Using original data without date conversion');
+            setSession(response.data);
+          }
         } else {
+          console.error('API error:', response.error);
           setError(response.error || 'Failed to load results');
         }
       } catch (err) {
+        console.error('Load results error:', err);
         setError('Failed to load search results');
       } finally {
         setLoading(false);
@@ -38,6 +63,8 @@ export default function ResultsPage() {
 
     if (sessionId) {
       loadResults();
+    } else {
+      console.log('No sessionId provided');
     }
   }, [sessionId]);
 
@@ -91,6 +118,15 @@ export default function ResultsPage() {
         <div className="container mx-auto px-4 py-8">
           <div className="text-center">
             <p className="text-red-600">Error: {error || 'Results not found'}</p>
+            {error && (
+              <Button 
+                variant="outline" 
+                className="mt-4"
+                onClick={() => window.location.reload()}
+              >
+                Retry
+              </Button>
+            )}
           </div>
         </div>
       </Layout>
