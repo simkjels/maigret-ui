@@ -41,7 +41,7 @@ export function Header() {
           </nav>
           
           <Button variant="outline" size="sm" asChild>
-            <Link href="https://github.com/soxoj/maigret" target="_blank">
+            <Link href="https://github.com/simkjels/maigret-ui" target="_blank">
               <Github className="h-4 w-4 mr-1" />
               GitHub
             </Link>
