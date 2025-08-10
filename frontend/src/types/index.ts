@@ -38,7 +38,7 @@ export interface SearchResult {
 export interface SiteResult {
   siteName: string;
   url: string;
-  status: 'Claimed' | 'Unclaimed' | 'Error';
+  status: 'Claimed' | 'Unclaimed' | 'Error' | 'claimed' | 'unclaimed' | 'error';
   tags: string[];
   metadata: Record<string, any>;
   urlUser?: string;

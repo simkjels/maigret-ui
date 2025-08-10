@@ -59,12 +59,13 @@ export default function ResultsPage() {
   };
 
   const getStatusBadge = (status: SiteResult['status']) => {
-    switch (status) {
-      case 'Claimed':
+    const normalizedStatus = status.toLowerCase();
+    switch (normalizedStatus) {
+      case 'claimed':
         return <Badge className="bg-green-500">Found</Badge>;
-      case 'Unclaimed':
+      case 'unclaimed':
         return <Badge variant="secondary">Not Found</Badge>;
-      case 'Error':
+      case 'error':
         return <Badge variant="destructive">Error</Badge>;
       default:
         return <Badge variant="outline">Unknown</Badge>;
@@ -97,7 +98,7 @@ export default function ResultsPage() {
   }
 
   const claimedSites = session.results.flatMap(result => 
-    result.sites.filter(site => site.status === 'Claimed')
+    result.sites.filter(site => site.status.toLowerCase() === 'claimed')
   );
 
   return (

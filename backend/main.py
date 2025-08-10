@@ -89,6 +89,8 @@ def check_maigret_available():
     try:
         # Use the parent directory to run maigret
         parent_path = os.path.join(os.path.dirname(__file__), '..')
+        logger.info(f"Checking Maigret availability from: {parent_path}")
+        
         result = subprocess.run(
             ["python3", "-m", "maigret.maigret", "--help"],
             capture_output=True,
@@ -96,6 +98,11 @@ def check_maigret_available():
             timeout=10,
             cwd=parent_path  # Set working directory to parent directory
         )
+        
+        logger.info(f"Maigret check result: returncode={result.returncode}")
+        if result.returncode != 0:
+            logger.error(f"Maigret check failed with stderr: {result.stderr}")
+        
         return result.returncode == 0
     except Exception as e:
         logger.error(f"Maigret check failed: {e}")
@@ -191,7 +198,7 @@ async def start_search(request: SearchRequest):
         session = {
             "id": session_id,
             "usernames": request.usernames,
-            "options": request.options.dict(),
+            "options": request.options.model_dump(),
             "status": "pending",
             "progress": 0,
             "results": [],
@@ -318,10 +325,14 @@ async def perform_maigret_search(session_id: str, request: SearchRequest):
                             for site_name, site_data in result_data.items():
                                 if isinstance(site_data, dict) and "status" in site_data:
                                     status = site_data.get("status", {})
+                                    # Normalize status to match frontend expectations
+                                    raw_status = status.get("status", "unknown") if isinstance(status, dict) else str(status)
+                                    normalized_status = raw_status.title() if raw_status.lower() in ["claimed", "unclaimed"] else raw_status
+                                    
                                     site_result = {
                                         "siteName": site_name,
                                         "url": site_data.get("url_main", ""),
-                                        "status": status.get("status", "unknown") if isinstance(status, dict) else str(status),
+                                        "status": normalized_status,
                                         "tags": site_data.get("tags", []) if "tags" in site_data else [],
                                         "metadata": site_data.get("metadata", {}),
                                         "urlUser": site_data.get("url_user", "")
@@ -447,7 +458,7 @@ async def mock_search(session_id: str, request: SearchRequest):
                 {
                     "siteName": "github",
                     "url": f"https://github.com/{username}",
-                    "status": "claimed" if username != "nonexistent" else "unclaimed",
+                    "status": "Claimed" if username != "nonexistent" else "Unclaimed",
                     "tags": ["coding", "tech"],
                     "metadata": {},
                     "urlUser": f"https://github.com/{username}" if username != "nonexistent" else None
@@ -455,7 +466,7 @@ async def mock_search(session_id: str, request: SearchRequest):
                 {
                     "siteName": "twitter",
                     "url": f"https://twitter.com/{username}",
-                    "status": "claimed" if username != "nonexistent" else "unclaimed",
+                    "status": "Claimed" if username != "nonexistent" else "Unclaimed",
                     "tags": ["social", "news"],
                     "metadata": {},
                     "urlUser": f"https://twitter.com/{username}" if username != "nonexistent" else None
