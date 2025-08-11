@@ -370,7 +370,11 @@ async def perform_maigret_search(session_id: str, request: SearchRequest):
         # Read output in real-time with timeout
         import time
         start_time = time.time()
-        timeout_seconds = max(request.options.timeout * 2, 120)  # Double the timeout, minimum 2 minutes
+        # Use much larger timeout for all-sites searches; these can take a long time
+        base_timeout = request.options.timeout or 30
+        timeout_seconds = (
+            max(base_timeout * 30, 3600) if request.options.allSites else max(base_timeout * 2, 120)
+        )
         
         # Update progress more frequently and ensure we always have some progress
         async def update_progress():
