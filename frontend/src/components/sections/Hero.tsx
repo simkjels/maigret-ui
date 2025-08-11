@@ -1,3 +1,4 @@
+"use client";
 import Link from 'next/link';
 import { Search, Shield, Globe, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';

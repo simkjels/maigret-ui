@@ -21,15 +21,8 @@ export default function SearchPage() {
   }, [isSearching, currentSession?.id, router]);
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-4xl mx-auto space-y-8">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Username Search</h1>
-          <p className="text-lg text-gray-600">
-            Search for usernames across multiple platforms and social media sites
-          </p>
-        </div>
-
+    <div className="container mx-auto px-4 py-12">
+      <div className="max-w-4xl mx-auto">
         <SimpleSearchForm onSearch={startSearch} isSearching={isSearching} />
       </div>
     </div>
