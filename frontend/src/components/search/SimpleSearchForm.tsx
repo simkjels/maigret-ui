@@ -247,7 +247,6 @@ export function SimpleSearchForm({ onSearch, isSearching }: SimpleSearchFormProp
             >
               {isSearching ? (
                 <>
-                  <div className="mr-2 h-5 w-5 animate-spin rounded-full border-2 border-current border-t-transparent" />
                   Searching...
                 </>
               ) : (

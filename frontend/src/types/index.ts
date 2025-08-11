@@ -119,6 +119,7 @@ export interface SearchStatusResponse {
   sitesChecked: number;
   totalSites: number;
   resultsFound: number;
+  error?: string;
 }
 
 export interface SitesResponse {

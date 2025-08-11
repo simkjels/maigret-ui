@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 import os
@@ -9,15 +9,16 @@ import logging
 import subprocess
 import tempfile
 from datetime import datetime
-from typing import List, Optional
+from typing import List, Optional, Dict
 from pydantic import BaseModel
+import threading
 
 app = FastAPI(title="Maigret OSINT API", version="1.0.0")
 
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:3003", "http://127.0.0.1:3003"],
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:3001", "http://127.0.0.1:3001", "http://localhost:3003", "http://127.0.0.1:3003"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -26,6 +27,42 @@ app.add_middleware(
 # Setup logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+# WebSocket connection manager
+class ConnectionManager:
+    def __init__(self):
+        self.active_connections: Dict[str, WebSocket] = {}
+
+    async def connect(self, websocket: WebSocket, session_id: str):
+        await websocket.accept()
+        self.active_connections[session_id] = websocket
+        logger.info(f"WebSocket connected for session {session_id}")
+
+    def disconnect(self, session_id: str):
+        if session_id in self.active_connections:
+            del self.active_connections[session_id]
+            logger.info(f"WebSocket disconnected for session {session_id}")
+
+    async def send_progress_update(self, session_id: str, data: dict):
+        logger.info(f"Attempting to send progress update to session {session_id}")
+        logger.info(f"Active connections: {list(self.active_connections.keys())}")
+        
+        if session_id in self.active_connections:
+            try:
+                message_json = json.dumps(data)
+                logger.info(f"Sending message to session {session_id}: {message_json}")
+                await self.active_connections[session_id].send_text(message_json)
+                logger.info(f"Successfully sent progress update to session {session_id}")
+            except Exception as e:
+                logger.error(f"Failed to send progress update to session {session_id}: {e}")
+                logger.error(f"Exception type: {type(e).__name__}")
+                logger.error(f"Exception details: {str(e)}")
+                self.disconnect(session_id)
+        else:
+            logger.warning(f"No active WebSocket connection for session {session_id}")
+            logger.warning(f"Available sessions: {list(self.active_connections.keys())}")
+
+manager = ConnectionManager()
 
 # Pydantic models
 class SearchOptions(BaseModel):
@@ -56,6 +93,7 @@ class SearchResponse(BaseModel):
 # In-memory storage for demo purposes
 # In production, use a proper database
 search_sessions = {}
+session_locks = {}  # Per-session locks for thread safety
 
 # Session persistence
 SESSIONS_FILE = "search_sessions.json"
@@ -81,14 +119,53 @@ def save_sessions():
     except Exception as e:
         logger.error(f"Failed to save sessions: {e}")
 
+def update_session_data(session_id: str, updates: dict):
+    """Thread-safe session data update"""
+    if session_id not in session_locks:
+        session_locks[session_id] = threading.Lock()
+    
+    with session_locks[session_id]:
+        if session_id in search_sessions:
+            search_sessions[session_id].update(updates)
+            logger.debug(f"Session {session_id} updated: {updates}")
+            save_sessions()
+        else:
+            logger.warning(f"Session {session_id} not found for update")
+
+def get_session_data(session_id: str) -> dict:
+    """Thread-safe session data retrieval"""
+    if session_id not in session_locks:
+        session_locks[session_id] = threading.Lock()
+    
+    with session_locks[session_id]:
+        return search_sessions.get(session_id, {}).copy()
+
 # Load sessions on startup
 load_sessions()
 
-MAIGRET_AVAILABLE = True  # Force Maigret to be available since we know it works
+MAIGRET_AVAILABLE = True  # Re-enable Maigret with WebSocket support
 
 @app.get("/api/health")
 async def health_check():
     return {"status": "healthy", "maigret_available": MAIGRET_AVAILABLE}
+
+@app.websocket("/ws/{session_id}")
+async def websocket_endpoint(websocket: WebSocket, session_id: str):
+    logger.info(f"WebSocket connection attempt for session {session_id}")
+    await manager.connect(websocket, session_id)
+    logger.info(f"WebSocket connected for session {session_id}, active connections: {list(manager.active_connections.keys())}")
+    
+    try:
+        while True:
+            # Keep connection alive
+            data = await websocket.receive_text()
+            logger.debug(f"Received WebSocket message from session {session_id}: {data}")
+    except WebSocketDisconnect:
+        logger.info(f"WebSocket disconnected for session {session_id}")
+        manager.disconnect(session_id)
+    except Exception as e:
+        logger.error(f"WebSocket error for session {session_id}: {e}")
+        manager.disconnect(session_id)
 
 @app.get("/api/sites")
 async def get_sites():
@@ -188,7 +265,7 @@ async def start_search(request: SearchRequest):
         if MAIGRET_AVAILABLE:
             asyncio.create_task(perform_maigret_search(session_id, request))
         else:
-            # Mock search results
+            # Mock search results with WebSocket support
             asyncio.create_task(mock_search(session_id, request))
         
         return SearchResponse(success=True, data=session)
@@ -198,21 +275,23 @@ async def start_search(request: SearchRequest):
 async def perform_maigret_search(session_id: str, request: SearchRequest):
     """Perform actual Maigret search using subprocess with real-time progress tracking"""
     try:
-        session = search_sessions[session_id]
-        session["status"] = "running"
-        session["progress"] = 0
-        session["currentSite"] = "Initializing..."
-        session["sitesChecked"] = 0
-        session["totalSites"] = 0
-        session["resultsFound"] = 0
-        save_sessions() # Save session after status update
+        # Update session status using thread-safe method
+        update_session_data(session_id, {
+            "status": "running",
+            "progress": 0,
+            "currentSite": "Initializing...",
+            "sitesChecked": 0,
+            "totalSites": 0,
+            "resultsFound": 0
+        })
         
         logger.info(f"Starting Maigret search for usernames: {request.usernames}")
         
-        # Add initial progress update
-        session["progress"] = 1
-        session["currentSite"] = "Preparing search..."
-        save_sessions()
+        # Add initial progress update immediately
+        update_session_data(session_id, {
+            "progress": 1,
+            "currentSite": "Preparing search..."
+        })
         
         # Build Maigret command
         parent_path = os.path.join(os.path.dirname(__file__), '..')
@@ -260,6 +339,12 @@ async def perform_maigret_search(session_id: str, request: SearchRequest):
         
         logger.info(f"Running command: {' '.join(cmd)}")
         
+        # Update progress to show command preparation
+        update_session_data(session_id, {
+            "progress": 2,
+            "currentSite": "Starting search process..."
+        })
+        
         # Run Maigret with real-time output capture
         env = os.environ.copy()
         env['PYTHONPATH'] = parent_path + ':' + env.get('PYTHONPATH', '')
@@ -285,38 +370,66 @@ async def perform_maigret_search(session_id: str, request: SearchRequest):
         # Read output in real-time with timeout
         import time
         start_time = time.time()
-        timeout_seconds = request.options.timeout * 2  # Double timeout for safety
+        timeout_seconds = max(request.options.timeout * 2, 120)  # Double the timeout, minimum 2 minutes
         
-        # Update progress more frequently
+        # Update progress more frequently and ensure we always have some progress
         async def update_progress():
             nonlocal last_progress_update
             current_time = time.time()
             if current_time - last_progress_update >= 0.5:  # Update every 500ms
-                # If we have parsed progress, use it; otherwise estimate based on time
+                # Calculate progress based on available information
                 if total_sites > 0 and sites_checked > 0:
+                    # Use actual progress from parsed output
                     progress = min(95, int((sites_checked / total_sites) * 100))
                 else:
                     # Estimate progress based on time elapsed
                     elapsed_time = current_time - start_time
-                    estimated_progress = min(90, int((elapsed_time / timeout_seconds) * 100))
+                    # Start with a minimum progress to show activity
+                    min_progress = max(2, int((elapsed_time / 5) * 3))  # 3% per 5 seconds initially
+                    estimated_progress = min(90, min_progress)
                     progress = estimated_progress
                 
-                session["progress"] = progress
-                session["sitesChecked"] = sites_checked
-                session["totalSites"] = total_sites
-                session["resultsFound"] = results_found
-                session["currentSite"] = current_site
-                save_sessions()
+                # Use thread-safe session update
+                update_session_data(session_id, {
+                    "progress": progress,
+                    "sitesChecked": sites_checked,
+                    "totalSites": total_sites,
+                    "resultsFound": results_found,
+                    "currentSite": current_site
+                })
+                
+                # Send real-time update via WebSocket
+                session_data = get_session_data(session_id)
+                await manager.send_progress_update(session_id, {
+                    "type": "progress",
+                    "data": {
+                        "sessionId": session_id,
+                        "status": session_data.get("status", "running"),
+                        "progress": progress,
+                        "currentSite": current_site,
+                        "sitesChecked": sites_checked,
+                        "totalSites": total_sites,
+                        "resultsFound": results_found
+                    }
+                })
+                
                 last_progress_update = current_time
+        
+        # Ensure we have initial progress even if no output yet
+        update_session_data(session_id, {
+            "progress": 3,
+            "currentSite": "Searching sites..."
+        })
         
         while True:
             # Check for timeout
             if time.time() - start_time > timeout_seconds:
                 logger.error(f"Search timeout after {timeout_seconds} seconds")
                 process.terminate()
-                session["status"] = "failed"
-                session["error"] = "Search timed out"
-                save_sessions()
+                update_session_data(session_id, {
+                    "status": "failed",
+                    "error": "Search timed out"
+                })
                 return
             
             output = process.stdout.readline()
@@ -334,9 +447,11 @@ async def perform_maigret_search(session_id: str, request: SearchRequest):
                     sites_match = re.search(r'(\d+)\s+sites?', line, re.IGNORECASE)
                     if sites_match and total_sites == 0:
                         total_sites = int(sites_match.group(1))
-                        session["totalSites"] = total_sites
-                        session["currentSite"] = "Starting search..."
-                        save_sessions()
+                        update_session_data(session_id, {
+                            "totalSites": total_sites,
+                            "currentSite": "Starting search...",
+                            "progress": 5
+                        })
                         logger.info(f"Found total sites: {total_sites}")
                 
                 # Look for progress bar updates (multiple formats)
@@ -347,22 +462,51 @@ async def perform_maigret_search(session_id: str, request: SearchRequest):
                     r'(\d+)/(\d+)\s+\[[# ]+\]',
                     r'Progress:\s+(\d+)/(\d+)',
                     r'(\d+)/(\d+)\s+sites?',
+                    # Add pattern for the format we're seeing in logs
+                    r'Searching\s+\|[█░]+\|\s*(\d+)/(\d+)',
+                    # Add pattern for the format: 494/500 [99%]
+                    r'(\d+)/(\d+)\s+\[(\d+)%\]',
                 ]
                 
                 for pattern in progress_patterns:
                     progress_match = re.search(pattern, line)
                     if progress_match:
-                        sites_checked = int(progress_match.group(1))
-                        if total_sites == 0:
+                        if len(progress_match.groups()) == 3:  # Format: 494/500 [99%]
+                            sites_checked = int(progress_match.group(1))
                             total_sites = int(progress_match.group(2))
-                            session["totalSites"] = total_sites
+                            progress_percent = int(progress_match.group(3))
+                        else:  # Other formats
+                            sites_checked = int(progress_match.group(1))
+                            if total_sites == 0:
+                                total_sites = int(progress_match.group(2))
+                            progress_percent = min(95, int((sites_checked / max(total_sites, 1)) * 100))
                         
-                        progress = min(95, int((sites_checked / max(total_sites, 1)) * 100))
-                        session["sitesChecked"] = sites_checked
-                        session["progress"] = progress
-                        save_sessions()
-                        logger.info(f"Progress update: {sites_checked}/{total_sites} ({progress}%)")
+                        update_session_data(session_id, {
+                            "totalSites": total_sites,
+                            "sitesChecked": sites_checked,
+                            "progress": progress_percent
+                        })
+                        logger.info(f"Progress update: {sites_checked}/{total_sites} ({progress_percent}%)")
                         break
+                
+                # Also look for progress bar patterns without numbers (like the one in logs)
+                if 'Searching |' in line and '|' in line:
+                    # Extract progress from visual progress bar
+                    bar_match = re.search(r'Searching\s+\|([█░]+)\|', line)
+                    if bar_match:
+                        bar = bar_match.group(1)
+                        filled = bar.count('█')
+                        total_length = len(bar)
+                        if total_length > 0:
+                            # Estimate progress from visual bar
+                            estimated_progress = min(95, int((filled / total_length) * 100))
+                            session_data = get_session_data(session_id)
+                            if estimated_progress > session_data.get("progress", 0):
+                                update_session_data(session_id, {
+                                    "progress": estimated_progress,
+                                    "currentSite": f"Site {sites_checked + 1}" if sites_checked > 0 else "Processing sites..."
+                                })
+                                logger.info(f"Visual progress update: {estimated_progress}%")
                 
                 # Look for site checking messages
                 site_check_patterns = [
@@ -377,8 +521,7 @@ async def perform_maigret_search(session_id: str, request: SearchRequest):
                     site_match = re.search(pattern, line)
                     if site_match:
                         current_site = site_match.group(1)
-                        session["currentSite"] = current_site
-                        save_sessions()
+                        update_session_data(session_id, {"currentSite": current_site})
                         logger.info(f"Currently checking: {current_site}")
                         break
                 
@@ -386,8 +529,16 @@ async def perform_maigret_search(session_id: str, request: SearchRequest):
                 if not any(re.search(pattern, line) for pattern in site_check_patterns) and sites_checked > 0:
                     if not current_site or current_site == "Initializing...":
                         current_site = f"Site {sites_checked}"
-                        session["currentSite"] = current_site
-                        save_sessions()
+                        update_session_data(session_id, {"currentSite": current_site})
+                
+                # If we're still in initializing phase but have been running for a while, show activity
+                if current_site == "Initializing..." and time.time() - start_time > 3:
+                    current_site = "Preparing search environment..."
+                    session_data = get_session_data(session_id)
+                    update_session_data(session_id, {
+                        "currentSite": current_site,
+                        "progress": max(session_data.get("progress", 0), 4)
+                    })
                 
                 # Look for found results
                 result_patterns = [
@@ -402,22 +553,31 @@ async def perform_maigret_search(session_id: str, request: SearchRequest):
                 for pattern in result_patterns:
                     if re.search(pattern, line, re.IGNORECASE):
                         results_found += 1
-                        session["resultsFound"] = results_found
-                        save_sessions()
+                        update_session_data(session_id, {"resultsFound": results_found})
                         logger.info(f"Result found! Total: {results_found}")
                         break
                 
                 # Update progress periodically
                 await update_progress()
+                
+                # Ensure we have some progress even if parsing fails
+                session_data = get_session_data(session_id)
+                if session_data.get("progress", 0) < 3 and time.time() - start_time > 2:
+                    update_session_data(session_id, {
+                        "progress": 3,
+                        "currentSite": "Starting search process..."
+                    })
         
         # Wait for process to complete
         return_code = process.wait()
         
         # Final progress update
-        if session.get("progress", 0) < 95 and session.get("status") == "running":
-            session["progress"] = 95
-            session["currentSite"] = "Processing results..."
-            save_sessions()
+        session_data = get_session_data(session_id)
+        if session_data.get("progress", 0) < 95 and session_data.get("status") == "running":
+            update_session_data(session_id, {
+                "progress": 95,
+                "currentSite": "Processing results..."
+            })
         
         if return_code == 0:
             # Parse JSON results from the generated file
@@ -482,42 +642,120 @@ async def perform_maigret_search(session_id: str, request: SearchRequest):
                     formatted_results.append(user_results)
                     logger.info(f"Formatted results for {username}: {len(user_results['sites'])} sites")
                 
-                session["results"] = formatted_results
-                session["status"] = "completed"
-                session["progress"] = 100
-                session["completedAt"] = datetime.now().isoformat()
-                save_sessions() # Save session after completion
+                update_session_data(session_id, {
+                    "results": formatted_results,
+                    "status": "completed",
+                    "progress": 100,
+                    "completedAt": datetime.now().isoformat()
+                })
+                
+                # Send completion notification via WebSocket
+                logger.info(f"About to send WebSocket completion message for session {session_id}")
+                logger.info(f"Active WebSocket connections: {list(manager.active_connections.keys())}")
+                
+                completion_message = {
+                    "type": "completed",
+                    "data": {
+                        "sessionId": session_id,
+                        "status": "completed",
+                        "progress": 100,
+                        "results": formatted_results
+                    }
+                }
+                logger.info(f"Completion message to send: {completion_message}")
+                
+                try:
+                    await manager.send_progress_update(session_id, completion_message)
+                    logger.info(f"Successfully sent completion message to session {session_id}")
+                except Exception as e:
+                    logger.error(f"Failed to send completion message to session {session_id}: {e}")
+                    # Try to send via HTTP polling as fallback
+                    logger.info(f"Session {session_id} will need to rely on HTTP polling for completion")
                 
                 logger.info(f"Search completed for session {session_id} with {len(formatted_results)} users")
                 
             except json.JSONDecodeError as e:
                 logger.error(f"Failed to parse Maigret output: {e}")
-                session["status"] = "failed"
-                session["error"] = f"Failed to parse results: {e}"
-                save_sessions() # Save session on failure
+                update_session_data(session_id, {
+                    "status": "failed",
+                    "error": f"Failed to parse results: {e}"
+                })
+                
+                # Send failure notification via WebSocket
+                await manager.send_progress_update(session_id, {
+                    "type": "failed",
+                    "data": {
+                        "sessionId": session_id,
+                        "status": "failed",
+                        "error": f"Failed to parse results: {e}"
+                    }
+                })
             except Exception as e:
                 logger.error(f"Failed to process Maigret results: {e}")
-                session["status"] = "failed"
-                session["error"] = f"Failed to process results: {e}"
-                save_sessions() # Save session on failure
+                update_session_data(session_id, {
+                    "status": "failed",
+                    "error": f"Failed to process results: {e}"
+                })
+                
+                # Send failure notification via WebSocket
+                await manager.send_progress_update(session_id, {
+                    "type": "failed",
+                    "data": {
+                        "sessionId": session_id,
+                        "status": "failed",
+                        "error": f"Failed to process results: {e}"
+                    }
+                })
         else:
             logger.error(f"Maigret search failed with return code: {return_code}")
-            session["status"] = "failed"
-            session["error"] = f"Maigret search failed with return code: {return_code}"
-            save_sessions() # Save session on failure
+            update_session_data(session_id, {
+                "status": "failed",
+                "error": f"Maigret search failed with return code: {return_code}"
+            })
+            
+            # Send failure notification via WebSocket
+            await manager.send_progress_update(session_id, {
+                "type": "failed",
+                "data": {
+                    "sessionId": session_id,
+                    "status": "failed",
+                    "error": f"Maigret search failed with return code: {return_code}"
+                }
+            })
         
     except subprocess.TimeoutExpired:
         logger.error(f"Maigret search timed out for session {session_id}")
-        session = search_sessions[session_id]
-        session["status"] = "failed"
-        session["error"] = "Search timed out"
-        save_sessions() # Save session on timeout
+        update_session_data(session_id, {
+            "status": "failed",
+            "error": "Search timed out"
+        })
+        
+        # Send timeout notification via WebSocket
+        await manager.send_progress_update(session_id, {
+            "type": "failed",
+            "data": {
+                "sessionId": session_id,
+                "status": "failed",
+                "error": "Search timed out"
+            }
+        })
     except Exception as e:
         logger.error(f"Search error for session {session_id}: {e}")
-        session = search_sessions[session_id]
-        session["status"] = "failed"
-        session["error"] = str(e)
-        save_sessions() # Save session on error
+        update_session_data(session_id, {
+            "status": "failed",
+            "error": str(e)
+        })
+        
+        # Send error notification via WebSocket
+        await manager.send_progress_update(session_id, {
+            "type": "failed",
+            "data": {
+                "sessionId": session_id,
+                "status": "failed",
+                "error": str(e)
+            }
+        })
+        
         # Ensure process is terminated if it's still running
         if 'process' in locals() and process.poll() is None:
             process.terminate()
@@ -528,13 +766,17 @@ async def get_search_status(session_id: str):
     if session_id not in search_sessions:
         raise HTTPException(status_code=404, detail="Search session not found")
     
-    session = search_sessions[session_id]
+    # Use thread-safe session data retrieval
+    session = get_session_data(session_id)
+    
+    # Add logging to debug status requests
+    logger.info(f"Status request for session {session_id}: status={session.get('status')}, progress={session.get('progress', 0)}")
     
     return SearchResponse(
         success=True,
         data={
             "sessionId": session_id,
-            "status": session["status"],
+            "status": session.get("status", "pending"),
             "progress": session.get("progress", 0),
             "currentSite": session.get("currentSite", None),
             "sitesChecked": session.get("sitesChecked", 0),
@@ -579,17 +821,52 @@ async def download_report(filename: str):
     return {"message": f"Download {filename}"}
 
 async def mock_search(session_id: str, request: SearchRequest):
-    """Mock search process for demo purposes"""
+    """Mock search process for demo purposes with WebSocket updates"""
     import asyncio
     
-    session = search_sessions[session_id]
-    session["status"] = "running"
-    save_sessions() # Save session after status update
+    # Update session status using thread-safe method
+    update_session_data(session_id, {
+        "status": "running",
+        "sitesChecked": 0,
+        "totalSites": 10,
+        "resultsFound": 0,
+        "currentSite": "Starting mock search..."
+    })
     
-    # Simulate search progress
+    mock_sites = ["github", "twitter", "instagram", "linkedin", "facebook", "reddit", "youtube", "tiktok", "discord", "steam"]
+    
+    # Simulate search progress with WebSocket updates
     for i in range(10):
         await asyncio.sleep(1)
-        session["progress"] = (i + 1) * 10
+        
+        # Update session data using thread-safe method
+        progress = (i + 1) * 10
+        current_site = mock_sites[i] if i < len(mock_sites) else f"Site {i+1}"
+        update_session_data(session_id, {
+            "progress": progress,
+            "sitesChecked": i + 1,
+            "currentSite": current_site,
+            "resultsFound": i // 2
+        })
+        
+        # Get updated session data for WebSocket message
+        session_data = get_session_data(session_id)
+        
+        # Send WebSocket progress update
+        await manager.send_progress_update(session_id, {
+            "type": "progress",
+            "data": {
+                "sessionId": session_id,
+                "status": "running",
+                "progress": progress,
+                "currentSite": session_data["currentSite"],
+                "sitesChecked": session_data["sitesChecked"],
+                "totalSites": session_data["totalSites"],
+                "resultsFound": session_data["resultsFound"]
+            }
+        })
+        
+        logger.info(f"Mock search progress: {progress}% - {session_data['currentSite']}")
     
     # Generate mock results
     mock_results = []
@@ -619,10 +896,25 @@ async def mock_search(session_id: str, request: SearchRequest):
         }
         mock_results.append(user_results)
     
-    session["results"] = mock_results
-    session["status"] = "completed"
-    session["completedAt"] = datetime.now().isoformat()
-    save_sessions() # Save session after completion
+    update_session_data(session_id, {
+        "results": mock_results,
+        "status": "completed",
+        "progress": 100,
+        "completedAt": datetime.now().isoformat()
+    })
+    
+    # Send completion WebSocket message
+    await manager.send_progress_update(session_id, {
+        "type": "completed",
+        "data": {
+            "sessionId": session_id,
+            "status": "completed",
+            "progress": 100,
+            "results": mock_results
+        }
+    })
+    
+    logger.info(f"Mock search completed for session {session_id}")
 
 if __name__ == "__main__":
     import uvicorn

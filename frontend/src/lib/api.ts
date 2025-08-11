@@ -51,7 +51,7 @@ class ApiClient {
           error: 'Request timed out after 60 seconds',
         };
       }
-      if (error instanceof Error && error.message.includes('fetch')) {
+      if (error instanceof Error && (error.message.includes('fetch') || error.message.includes('Failed to fetch'))) {
         return {
           success: false,
           error: 'Unable to connect to the server. Please check if the backend is running.',
@@ -73,7 +73,54 @@ class ApiClient {
   }
 
   async getSearchStatus(sessionId: string): Promise<ApiResponse<SearchStatusResponse>> {
-    return this.request<SearchStatusResponse>(`/api/search/${sessionId}`);
+    // Use a longer timeout for status requests to avoid blocking during long searches
+    const url = `${this.baseUrl}/api/search/${sessionId}`;
+    
+    try {
+      console.log('Making status request to:', url);
+      
+      // Use a much longer timeout for status requests (120 seconds) to prevent aborts during long searches
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 120000); // 120 second timeout
+      
+      const response = await fetch(url, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeoutId);
+      console.log('Status response status:', response.status);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('HTTP error response:', errorText);
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
+      }
+
+      const data = await response.json();
+      console.log('Status response data:', data);
+      return data;
+    } catch (error) {
+      console.error('Status request failed:', error);
+      if (error instanceof Error && error.name === 'AbortError') {
+        return {
+          success: false,
+          error: 'Status request timed out after 120 seconds',
+        };
+      }
+      if (error instanceof Error && (error.message.includes('fetch') || error.message.includes('Failed to fetch'))) {
+        return {
+          success: false,
+          error: 'Unable to connect to the server. Please check if the backend is running.',
+        };
+      }
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      };
+    }
   }
 
   async getSearchResults(sessionId: string): Promise<ApiResponse<SearchSession>> {

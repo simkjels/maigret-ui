@@ -1,69 +1,69 @@
 'use client';
 
-import { useSearch } from '@/hooks/useSearch';
-import { SimpleSearchForm } from '@/components/search/SimpleSearchForm';
-import { SearchProgress } from '@/components/search/SearchProgress';
-import { Layout } from '@/components/layout/Layout';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { SimpleSearchForm } from '@/components/search/SimpleSearchForm';
+import { SearchProgress } from '@/components/search/SearchProgress';
+import { useSearch } from '@/hooks/useSearch';
 
 export default function SearchPage() {
   const router = useRouter();
-  const { 
-    currentSession, 
-    searchStatus, 
-    isSearching, 
-    error, 
-    startSearch, 
-    progress, 
-    status 
-  } = useSearch();
+  const { currentSession, searchStatus, isSearching, error, startSearch, stopSearch, progress, status } = useSearch();
 
-  console.log('SearchPage render:', { 
-    currentSession, 
-    searchStatus, 
-    isSearching, 
-    error, 
-    progress, 
-    status 
-  });
+  console.log('SearchPage render:', { currentSession, searchStatus, isSearching, error, progress, status });
 
-  // Redirect to results when search is completed
+  // Handle search completion
   useEffect(() => {
-    // Check multiple conditions for completion
-    const isCompleted = 
-      (currentSession && status === 'completed') ||
-      (searchStatus && searchStatus.status === 'completed');
-    
-    if (isCompleted && currentSession?.id) {
-      router.push(`/results/${currentSession.id}`);
-    }
-  }, [currentSession, status, searchStatus, isSearching, router]);
+    console.log('SearchPage useEffect - checking completion:', {
+      currentSession: currentSession?.id,
+      status,
+      searchStatus: searchStatus?.status,
+      isSearching,
+      hasSession: !!currentSession?.id,
+      currentSessionStatus: currentSession?.status,
+      searchStatusStatus: searchStatus?.status
+    });
 
-  const handleSearch = async (usernames: string[], options: any) => {
-    console.log('Starting search with:', { usernames, options });
-    await startSearch(usernames, options);
-  };
+    // Check multiple conditions for completion or failure
+    const currentSessionCompleted = currentSession && (currentSession.status === 'completed' || currentSession.status === 'failed');
+    const searchStatusCompleted = searchStatus && (searchStatus.status === 'completed' || searchStatus.status === 'failed');
+    const statusCompleted = status === 'completed' || status === 'failed';
+
+    console.log('SearchPage useEffect - isFinished:', currentSessionCompleted || searchStatusCompleted || statusCompleted);
+
+    if ((currentSessionCompleted || searchStatusCompleted || statusCompleted) && currentSession?.id) {
+      console.log('SearchPage useEffect - redirecting to results:', currentSession.id);
+      
+      // Stop polling before redirecting to prevent errors
+      stopSearch();
+      
+      // Add a small delay to ensure state is fully updated
+      setTimeout(() => {
+        router.push(`/results/${currentSession.id}`);
+      }, 200);
+    }
+  }, [currentSession, status, searchStatus, isSearching, router, stopSearch]);
 
   return (
-    <Layout>
-      <div className="min-h-screen flex flex-col justify-center items-center px-4 py-8">
-        <div className="w-full max-w-2xl">
-          {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-              <p className="text-red-800 text-center">Error: {error}</p>
-            </div>
-          )}
-
-          <SimpleSearchForm onSearch={handleSearch} isSearching={isSearching} />
-          
-          {isSearching && (
-            <div className="mt-8">
-              <SearchProgress status={searchStatus} isSearching={isSearching} />
-            </div>
-          )}
+    <div className="container mx-auto px-4 py-8">
+      <div className="max-w-4xl mx-auto space-y-8">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Username Search</h1>
+          <p className="text-lg text-gray-600">
+            Search for usernames across multiple platforms and social media sites
+          </p>
         </div>
+
+        <SimpleSearchForm
+          onSearch={startSearch}
+          isSearching={isSearching}
+        />
+
+        <SearchProgress
+          status={searchStatus}
+          isSearching={isSearching}
+        />
       </div>
-    </Layout>
+    </div>
   );
 }

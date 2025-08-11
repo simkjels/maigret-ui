@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Progress Bar</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .progress-bar { width: 100%; background: #f0f0f0; height: 20px; border-radius: 10px; }
+        .progress-fill { height: 100%; background: #4CAF50; border-radius: 10px; transition: width 0.3s; }
+        .status { margin: 10px 0; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+        button { padding: 10px 20px; font-size: 16px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>Maigret Progress Test</h1>
+    
+    <button onclick="startSearch()">Start Search</button>
+    <button onclick="stopSearch()">Stop Search</button>
+    
+    <div class="status">
+        <div>Status: <span id="status">Ready</span></div>
+        <div>Session ID: <span id="sessionId">-</span></div>
+        <div>Progress: <span id="progress">0%</span></div>
+        <div>Current Site: <span id="currentSite">-</span></div>
+        <div>Sites: <span id="sites">0/0</span></div>
+        <div>Results: <span id="results">0</span></div>
+    </div>
+    
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+    </div>
+    
+    <div id="log" style="margin-top: 20px; max-height: 300px; overflow-y: auto; background: #f5f5f5; padding: 10px; border-radius: 5px;"></div>
+
+    <script>
+        let sessionId = null;
+        let pollInterval = null;
+        
+        function log(message) {
+            const logDiv = document.getElementById('log');
+            const time = new Date().toLocaleTimeString();
+            logDiv.innerHTML += `[${time}] ${message}<br>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+            console.log(message);
+        }
+        
+        async function startSearch() {
+            try {
+                log('Starting search...');
+                
+                const response = await fetch('http://localhost:8000/api/search', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        usernames: ['testprogress'],
+                        options: {
+                            topSites: 50,
+                            timeout: 30,
+                            useCookies: false,
+                            allSites: false,
+                            disableRecursiveSearch: false,
+                            disableExtracting: false,
+                            withDomains: false,
+                            permute: false,
+                            tags: [],
+                            siteList: []
+                        }
+                    })
+                });
+                
+                const data = await response.json();
+                log(`Search response: ${JSON.stringify(data)}`);
+                
+                if (data.success && data.data) {
+                    sessionId = data.data.id;
+                    document.getElementById('sessionId').textContent = sessionId;
+                    document.getElementById('status').textContent = 'Running';
+                    
+                    log(`Search started with session: ${sessionId}`);
+                    
+                    // Start polling
+                    startPolling();
+                } else {
+                    log(`Search failed: ${data.error}`);
+                }
+            } catch (error) {
+                log(`Error starting search: ${error}`);
+            }
+        }
+        
+        function startPolling() {
+            if (pollInterval) clearInterval(pollInterval);
+            
+            pollInterval = setInterval(async () => {
+                if (!sessionId) return;
+                
+                try {
+                    const response = await fetch(`http://localhost:8000/api/search/${sessionId}`);
+                    const data = await response.json();
+                    
+                    if (data.success && data.data) {
+                        const info = data.data;
+                        
+                        // Update UI
+                        document.getElementById('status').textContent = info.status;
+                        document.getElementById('progress').textContent = `${info.progress}%`;
+                        document.getElementById('currentSite').textContent = info.currentSite || '-';
+                        document.getElementById('sites').textContent = `${info.sitesChecked}/${info.totalSites}`;
+                        document.getElementById('results').textContent = info.resultsFound;
+                        document.getElementById('progressFill').style.width = `${info.progress}%`;
+                        
+                        log(`Progress: ${info.progress}% - ${info.currentSite} (${info.sitesChecked}/${info.totalSites})`);
+                        
+                        // Stop polling if completed or failed
+                        if (info.status === 'completed' || info.status === 'failed') {
+                            log(`Search ${info.status}`);
+                            stopPolling();
+                            
+                            if (info.status === 'completed') {
+                                // Get results
+                                setTimeout(async () => {
+                                    try {
+                                        const resultsResponse = await fetch(`http://localhost:8000/api/results/${sessionId}`);
+                                        const resultsData = await resultsResponse.json();
+                                        if (resultsData.success) {
+                                            log(`Results: ${JSON.stringify(resultsData.data)}`);
+                                        }
+                                    } catch (e) {
+                                        log(`Error fetching results: ${e}`);
+                                    }
+                                }, 500);
+                            }
+                        }
+                    } else {
+                        log(`Status error: ${data.error}`);
+                    }
+                } catch (error) {
+                    log(`Polling error: ${error}`);
+                }
+            }, 500); // Poll every 500ms
+            
+            log('Started polling for progress');
+        }
+        
+        function stopPolling() {
+            if (pollInterval) {
+                clearInterval(pollInterval);
+                pollInterval = null;
+                log('Stopped polling');
+            }
+        }
+        
+        function stopSearch() {
+            stopPolling();
+            sessionId = null;
+            document.getElementById('status').textContent = 'Stopped';
+            document.getElementById('sessionId').textContent = '-';
+            log('Search stopped');
+        }
+    </script>
+</body>
+</html>

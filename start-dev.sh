@@ -4,6 +4,18 @@
 
 echo "🚀 Starting Maigret UI Development Servers..."
 
+# Ensure we are in the script directory
+cd "$(dirname "$0")"
+
+# Kill anything using ports 3000 and 8000
+echo "🔧 Ensuring ports 3000 and 8000 are free..."
+if lsof -ti tcp:3000 >/dev/null 2>&1; then
+  lsof -ti tcp:3000 | xargs -r kill -9 || true
+fi
+if lsof -ti tcp:8000 >/dev/null 2>&1; then
+  lsof -ti tcp:8000 | xargs -r kill -9 || true
+fi
+
 # Function to cleanup background processes on exit
 cleanup() {
     echo "🛑 Stopping servers..."
@@ -17,7 +29,9 @@ trap cleanup SIGINT SIGTERM
 # Start backend server
 echo "📡 Starting backend server..."
 cd backend
-source venv/bin/activate
+if [ -f "venv/bin/activate" ]; then
+  source venv/bin/activate
+fi
 python main.py &
 BACKEND_PID=$!
 cd ..
@@ -28,7 +42,12 @@ sleep 2
 # Start frontend server
 echo "🎨 Starting frontend server..."
 cd frontend
-npm run dev &
+if command -v bun >/dev/null 2>&1; then
+  # Prefer bun if available for faster dev
+  bun run dev &
+else
+  npm run dev &
+fi
 FRONTEND_PID=$!
 cd ..
 
