@@ -44,15 +44,15 @@ class ConnectionManager:
             logger.info(f"WebSocket disconnected for session {session_id}")
 
     async def send_progress_update(self, session_id: str, data: dict):
-        logger.info(f"Attempting to send progress update to session {session_id}")
-        logger.info(f"Active connections: {list(self.active_connections.keys())}")
+        logger.debug(f"Attempting to send progress update to session {session_id}")
+        logger.debug(f"Active connections: {list(self.active_connections.keys())}")
         
         if session_id in self.active_connections:
             try:
                 message_json = json.dumps(data)
-                logger.info(f"Sending message to session {session_id}: {message_json}")
+                logger.debug(f"Sending message to session {session_id}: {message_json}")
                 await self.active_connections[session_id].send_text(message_json)
-                logger.info(f"Successfully sent progress update to session {session_id}")
+                logger.debug(f"Successfully sent progress update to session {session_id}")
             except Exception as e:
                 logger.error(f"Failed to send progress update to session {session_id}: {e}")
                 logger.error(f"Exception type: {type(e).__name__}")
@@ -60,7 +60,7 @@ class ConnectionManager:
                 self.disconnect(session_id)
         else:
             logger.warning(f"No active WebSocket connection for session {session_id}")
-            logger.warning(f"Available sessions: {list(self.active_connections.keys())}")
+            logger.debug(f"Available sessions: {list(self.active_connections.keys())}")
 
 manager = ConnectionManager()
 
@@ -153,7 +153,7 @@ async def health_check():
 async def websocket_endpoint(websocket: WebSocket, session_id: str):
     logger.info(f"WebSocket connection attempt for session {session_id}")
     await manager.connect(websocket, session_id)
-    logger.info(f"WebSocket connected for session {session_id}, active connections: {list(manager.active_connections.keys())}")
+    logger.debug(f"WebSocket connected for session {session_id}, active connections: {list(manager.active_connections.keys())}")
     
     try:
         while True:
@@ -337,7 +337,7 @@ async def perform_maigret_search(session_id: str, request: SearchRequest):
         # Add usernames
         cmd.extend(request.usernames)
         
-        logger.info(f"Running command: {' '.join(cmd)}")
+        logger.debug(f"Running command: {' '.join(cmd)}")
         
         # Update progress to show command preparation
         update_session_data(session_id, {
@@ -437,7 +437,7 @@ async def perform_maigret_search(session_id: str, request: SearchRequest):
                 break
             if output:
                 line = output.strip()
-                logger.info(f"Maigret output: {line}")
+                logger.debug(f"Maigret output: {line}")
                 
                 # Parse progress information from output
                 import re
@@ -452,7 +452,7 @@ async def perform_maigret_search(session_id: str, request: SearchRequest):
                             "currentSite": "Starting search...",
                             "progress": 5
                         })
-                        logger.info(f"Found total sites: {total_sites}")
+                        logger.debug(f"Found total sites: {total_sites}")
                 
                 # Look for progress bar updates (multiple formats)
                 progress_patterns = [
@@ -486,7 +486,7 @@ async def perform_maigret_search(session_id: str, request: SearchRequest):
                             "sitesChecked": sites_checked,
                             "progress": progress_percent
                         })
-                        logger.info(f"Progress update: {sites_checked}/{total_sites} ({progress_percent}%)")
+                        logger.debug(f"Progress update: {sites_checked}/{total_sites} ({progress_percent}%)")
                         break
                 
                 # Also look for progress bar patterns without numbers (like the one in logs)
@@ -506,7 +506,7 @@ async def perform_maigret_search(session_id: str, request: SearchRequest):
                                     "progress": estimated_progress,
                                     "currentSite": f"Site {sites_checked + 1}" if sites_checked > 0 else "Processing sites..."
                                 })
-                                logger.info(f"Visual progress update: {estimated_progress}%")
+                                logger.debug(f"Visual progress update: {estimated_progress}%")
                 
                 # Look for site checking messages
                 site_check_patterns = [
@@ -522,7 +522,7 @@ async def perform_maigret_search(session_id: str, request: SearchRequest):
                     if site_match:
                         current_site = site_match.group(1)
                         update_session_data(session_id, {"currentSite": current_site})
-                        logger.info(f"Currently checking: {current_site}")
+                        logger.debug(f"Currently checking: {current_site}")
                         break
                 
                 # If no specific site found, but we have progress, show a generic message
@@ -591,20 +591,20 @@ async def perform_maigret_search(session_id: str, request: SearchRequest):
                     json_filename = f"report_{username}_simple.json"
                     json_path = os.path.join(parent_path, "reports", json_filename)
                     
-                    logger.info(f"Looking for JSON file: {json_path}")
+                    logger.debug(f"Looking for JSON file: {json_path}")
                     
                     if os.path.exists(json_path):
-                        logger.info(f"Found JSON file for {username}")
+                        logger.debug(f"Found JSON file for {username}")
                         with open(json_path, 'r') as f:
                             data = json.load(f)
                             all_results.append(data)
-                            logger.info(f"Loaded data for {username}: {len(data)} sites")
+                            logger.debug(f"Loaded data for {username}: {len(data)} sites")
                     else:
                         logger.warning(f"JSON file not found for {username}: {json_path}")
                         # If file doesn't exist, create empty result
                         all_results.append({"username": username, "sites": {}})
                 
-                logger.info(f"Processing {len(all_results)} result sets")
+                logger.debug(f"Processing {len(all_results)} result sets")
                 
                 # Convert to our format
                 formatted_results = []
@@ -620,7 +620,7 @@ async def perform_maigret_search(session_id: str, request: SearchRequest):
                     for result_data in all_results:
                         if isinstance(result_data, dict):
                             # The result_data is the sites dict directly (e.g., {"YouTube": {...}, "YouTube User": {...}})
-                            logger.info(f"Processing result data with {len(result_data)} sites")
+                            logger.debug(f"Processing result data with {len(result_data)} sites")
                             for site_name, site_data in result_data.items():
                                 if isinstance(site_data, dict) and "status" in site_data:
                                     status = site_data.get("status", {})
@@ -637,10 +637,10 @@ async def perform_maigret_search(session_id: str, request: SearchRequest):
                                         "urlUser": site_data.get("url_user", "")
                                     }
                                     user_results["sites"].append(site_result)
-                                    logger.info(f"Added site {site_name} with status {site_result['status']}")
+                                    logger.debug(f"Added site {site_name} with status {site_result['status']}")
                     
                     formatted_results.append(user_results)
-                    logger.info(f"Formatted results for {username}: {len(user_results['sites'])} sites")
+                    logger.debug(f"Formatted results for {username}: {len(user_results['sites'])} sites")
                 
                 update_session_data(session_id, {
                     "results": formatted_results,
@@ -650,8 +650,8 @@ async def perform_maigret_search(session_id: str, request: SearchRequest):
                 })
                 
                 # Send completion notification via WebSocket
-                logger.info(f"About to send WebSocket completion message for session {session_id}")
-                logger.info(f"Active WebSocket connections: {list(manager.active_connections.keys())}")
+                logger.debug(f"About to send WebSocket completion message for session {session_id}")
+                logger.debug(f"Active WebSocket connections: {list(manager.active_connections.keys())}")
                 
                 completion_message = {
                     "type": "completed",
@@ -662,15 +662,15 @@ async def perform_maigret_search(session_id: str, request: SearchRequest):
                         "results": formatted_results
                     }
                 }
-                logger.info(f"Completion message to send: {completion_message}")
+                logger.debug(f"Completion message to send: {completion_message}")
                 
                 try:
                     await manager.send_progress_update(session_id, completion_message)
-                    logger.info(f"Successfully sent completion message to session {session_id}")
+                    logger.debug(f"Successfully sent completion message to session {session_id}")
                 except Exception as e:
                     logger.error(f"Failed to send completion message to session {session_id}: {e}")
                     # Try to send via HTTP polling as fallback
-                    logger.info(f"Session {session_id} will need to rely on HTTP polling for completion")
+                    logger.debug(f"Session {session_id} will need to rely on HTTP polling for completion")
                 
                 logger.info(f"Search completed for session {session_id} with {len(formatted_results)} users")
                 

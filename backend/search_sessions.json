@@ -68511,5 +68511,1521 @@
     "totalSites": 500,
     "resultsFound": 0,
     "completedAt": "2025-08-11T14:24:09.673003"
+  },
+  "f60aa994-34f1-4872-94f2-9f3eacc5329d": {
+    "id": "f60aa994-34f1-4872-94f2-9f3eacc5329d",
+    "usernames": [
+      "testtt"
+    ],
+    "options": {
+      "topSites": 500,
+      "timeout": 30,
+      "useCookies": false,
+      "allSites": false,
+      "disableRecursiveSearch": false,
+      "disableExtracting": false,
+      "withDomains": false,
+      "proxy": null,
+      "torProxy": null,
+      "i2pProxy": null,
+      "permute": false,
+      "tags": [],
+      "siteList": []
+    },
+    "status": "completed",
+    "progress": 100,
+    "results": [
+      {
+        "username": "testtt",
+        "sites": [
+          {
+            "siteName": "WordPress",
+            "url": "https://wordpress.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://testtt.wordpress.com/"
+          },
+          {
+            "siteName": "StackOverflow",
+            "url": "https://stackoverflow.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://stackoverflow.com/users/filter?search=testtt"
+          },
+          {
+            "siteName": "Ameblo",
+            "url": "https://ameblo.jp",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://ameblo.jp/testtt"
+          },
+          {
+            "siteName": "DailyMotion",
+            "url": "https://www.dailymotion.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.dailymotion.com/testtt"
+          },
+          {
+            "siteName": "BleachFandom",
+            "url": "https://bleach.fandom.com/ru",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://bleach.fandom.com/ru/wiki/%D0%A3%D1%87%D0%B0%D1%81%D1%82%D0%BD%D0%B8%D0%BA:testtt"
+          },
+          {
+            "siteName": "SoundCloud",
+            "url": "https://soundcloud.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://soundcloud.com/testtt"
+          },
+          {
+            "siteName": "GitHubGist",
+            "url": "https://gist.github.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://gist.github.com/testtt"
+          },
+          {
+            "siteName": "GitHub",
+            "url": "https://www.github.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://github.com/testtt"
+          },
+          {
+            "siteName": "Xvideos",
+            "url": "https://xvideos.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://xvideos.com/profiles/testtt"
+          },
+          {
+            "siteName": "Tumblr",
+            "url": "https://www.tumblr.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.tumblr.com/testtt"
+          },
+          {
+            "siteName": "Imgur",
+            "url": "https://imgur.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://imgur.com/user/testtt"
+          },
+          {
+            "siteName": "Naver",
+            "url": "https://naver.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://blog.naver.com/testtt"
+          },
+          {
+            "siteName": "Slack",
+            "url": "https://slack.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://testtt.slack.com"
+          },
+          {
+            "siteName": "Armchairgm",
+            "url": "https://armchairgm.fandom.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://armchairgm.fandom.com/wiki/User:testtt"
+          },
+          {
+            "siteName": "Chess",
+            "url": "https://www.chess.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.chess.com/member/testtt"
+          },
+          {
+            "siteName": "BongaCams",
+            "url": "https://sbongacams.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://bongacams.com/profile/testtt"
+          },
+          {
+            "siteName": "TikTok",
+            "url": "https://www.tiktok.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.tiktok.com/@testtt"
+          },
+          {
+            "siteName": "FandomCommunityCentral",
+            "url": "https://community.fandom.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://community.fandom.com/wiki/User:testtt"
+          },
+          {
+            "siteName": "Steam (Group)",
+            "url": "https://steamcommunity.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://steamcommunity.com/groups/testtt"
+          },
+          {
+            "siteName": "Steam",
+            "url": "https://steamcommunity.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://steamcommunity.com/id/testtt"
+          },
+          {
+            "siteName": "Weebly",
+            "url": "http://weebly.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "http://testtt.weebly.com/"
+          },
+          {
+            "siteName": "opensea.io",
+            "url": "https://opensea.io",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://opensea.io/accounts/testtt"
+          },
+          {
+            "siteName": "xHamster",
+            "url": "https://xhamster.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://xhamster.com/users/testtt"
+          },
+          {
+            "siteName": "Fiverr",
+            "url": "https://www.fiverr.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.fiverr.com/testtt"
+          },
+          {
+            "siteName": "VK",
+            "url": "https://vk.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://vk.com/testtt"
+          },
+          {
+            "siteName": "Aparat",
+            "url": "https://www.aparat.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.aparat.com/testtt"
+          },
+          {
+            "siteName": "Twitch",
+            "url": "https://www.twitch.tv/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://twitchtracker.com/testtt"
+          },
+          {
+            "siteName": "AppleDeveloper",
+            "url": "https://developer.apple.com/forums",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://developer.apple.com/forums/profile/testtt"
+          },
+          {
+            "siteName": "Battleraprus",
+            "url": "https://battleraprus.fandom.com/ru",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://battleraprus.fandom.com/ru/wiki/%D0%A3%D1%87%D0%B0%D1%81%D1%82%D0%BD%D0%B8%D0%BA:testtt"
+          },
+          {
+            "siteName": "Rutracker",
+            "url": "https://rutracker.org/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://rutracker.org/forum/profile.php?mode=viewprofile&u=testtt"
+          },
+          {
+            "siteName": "Unsplash",
+            "url": "https://unsplash.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://unsplash.com/@testtt"
+          },
+          {
+            "siteName": "Disqus",
+            "url": "https://disqus.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://disqus.com/testtt"
+          },
+          {
+            "siteName": "Freelancer.com",
+            "url": "https://www.freelancer.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.freelancer.com/api/users/0.1/users?usernames%5B%5D=testtt&compact=true"
+          },
+          {
+            "siteName": "ChaturBate",
+            "url": "https://chaturbate.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://chaturbate.com/testtt"
+          },
+          {
+            "siteName": "My.Mail.ru@bk.ru",
+            "url": "https://my.mail.ru/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://my.mail.ru/bk/testtt/"
+          },
+          {
+            "siteName": "Scribd",
+            "url": "https://www.scribd.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.scribd.com/testtt"
+          },
+          {
+            "siteName": "ThemeForest",
+            "url": "https://themeforest.net",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://themeforest.net/user/testtt"
+          },
+          {
+            "siteName": "TradingView",
+            "url": "https://www.tradingview.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.tradingview.com/u/testtt"
+          },
+          {
+            "siteName": "Flickr",
+            "url": "https://www.flickr.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.flickr.com/photos/testtt"
+          },
+          {
+            "siteName": "MyAnimeList",
+            "url": "https://myanimelist.net/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://myanimelist.net/profile/testtt"
+          },
+          {
+            "siteName": "WordPressOrg",
+            "url": "https://wordpress.org/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://profiles.wordpress.org/testtt/"
+          },
+          {
+            "siteName": "giphy.com",
+            "url": "https://giphy.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://giphy.com/channel/testtt"
+          },
+          {
+            "siteName": "Behance",
+            "url": "https://www.behance.net/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.behance.net/testtt"
+          },
+          {
+            "siteName": "Wowhead",
+            "url": "https://www.wowhead.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.wowhead.com/user=testtt"
+          },
+          {
+            "siteName": "Patreon",
+            "url": "https://www.patreon.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.patreon.com/testtt"
+          },
+          {
+            "siteName": "Habr",
+            "url": "https://habr.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://habr.com/ru/users/testtt/"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Oceania",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=testtt&region=oce"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Middle East",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=testtt&region=me"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] LAN",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=testtt&region=lan"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] LAS",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=testtt&region=las"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Brazil",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=testtt&region=br"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Vietnam",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=testtt&region=vn"
+          },
+          {
+            "siteName": "Redtube",
+            "url": "https://ru.redtube.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://ru.redtube.com/users/testtt"
+          },
+          {
+            "siteName": "Dreamstime",
+            "url": "https://www.dreamstime.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.dreamstime.com/testtt_info"
+          },
+          {
+            "siteName": "Baidu",
+            "url": "https://tieba.baidu.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://tieba.baidu.com/home/main?un=testtt"
+          },
+          {
+            "siteName": "Genius",
+            "url": "https://genius.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://genius.com/testtt"
+          },
+          {
+            "siteName": "Zomato",
+            "url": "https://www.zomato.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.zomato.com/pl/testtt/foodjourney"
+          },
+          {
+            "siteName": "note",
+            "url": "https://note.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://note.com/testtt"
+          },
+          {
+            "siteName": "Pikabu",
+            "url": "https://pikabu.ru/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://pikabu.ru/@testtt"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Russia",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=testtt&region=ru"
+          },
+          {
+            "siteName": "Duolingo",
+            "url": "https://duolingo.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.duolingo.com/profile/testtt"
+          },
+          {
+            "siteName": "Codecanyon",
+            "url": "https://codecanyon.net",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://codecanyon.net/user/testtt"
+          },
+          {
+            "siteName": "Scratch",
+            "url": "https://scratch.mit.edu/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://scratch.mit.edu/users/testtt"
+          },
+          {
+            "siteName": "Myspace",
+            "url": "https://myspace.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://myspace.com/testtt"
+          },
+          {
+            "siteName": "TripAdvisor",
+            "url": "https://tripadvisor.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://tripadvisor.com/members/testtt"
+          },
+          {
+            "siteName": "Ccm",
+            "url": "https://ccm.net",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://ccm.net/profile/user/testtt"
+          },
+          {
+            "siteName": "drive2",
+            "url": "https://www.drive2.ru/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.drive2.ru/users/testtt"
+          },
+          {
+            "siteName": "Eporner",
+            "url": "",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.eporner.com/profile/testtt/"
+          },
+          {
+            "siteName": "Redbubble",
+            "url": "https://www.redbubble.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.redbubble.com/people/testtt"
+          },
+          {
+            "siteName": "Pastebin",
+            "url": "https://pastebin.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://pastebin.com/u/testtt"
+          },
+          {
+            "siteName": "community.adobe.com",
+            "url": "https://community.adobe.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://community.adobe.com/t5/forums/searchpage/tab/user?q=testtt"
+          },
+          {
+            "siteName": "Roblox",
+            "url": "https://www.roblox.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.roblox.com/user.aspx?username=testtt"
+          },
+          {
+            "siteName": "Kaggle",
+            "url": "https://www.kaggle.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.kaggle.com/testtt"
+          },
+          {
+            "siteName": "Lichess",
+            "url": "https://lichess.org",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://lichess.org/@/testtt"
+          },
+          {
+            "siteName": "Livemaster",
+            "url": "https://www.livemaster.ru",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.livemaster.ru/testtt"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Japan",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=testtt&region=jp"
+          },
+          {
+            "siteName": "Plurk",
+            "url": "https://www.plurk.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.plurk.com/testtt"
+          },
+          {
+            "siteName": "Gab",
+            "url": "https://gab.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://gab.com/testtt"
+          },
+          {
+            "siteName": "AppleDiscussions",
+            "url": "https://discussions.apple.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://discussions.apple.com/profile/testtt"
+          },
+          {
+            "siteName": "MixCloud",
+            "url": "https://www.mixcloud.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.mixcloud.com/testtt/"
+          },
+          {
+            "siteName": "DEV Community",
+            "url": "https://dev.to/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://dev.to/testtt"
+          },
+          {
+            "siteName": "DeviantART",
+            "url": "https://deviantart.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://testtt.deviantart.com"
+          },
+          {
+            "siteName": "Codecademy",
+            "url": "https://www.codecademy.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.codecademy.com/profiles/testtt"
+          },
+          {
+            "siteName": "Tinder",
+            "url": "https://tinder.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.tinder.com/@testtt"
+          },
+          {
+            "siteName": "jeuxvideo",
+            "url": "http://www.jeuxvideo.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "http://www.jeuxvideo.com/profil/testtt?mode=infos"
+          },
+          {
+            "siteName": "FilmWeb",
+            "url": "https://www.filmweb.pl/user/adam",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.filmweb.pl/user/testtt"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Europe Nordic & East",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=testtt&region=eune"
+          },
+          {
+            "siteName": "fixya",
+            "url": "https://www.fixya.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.fixya.com/users/testtt"
+          },
+          {
+            "siteName": "Wikidot",
+            "url": "http://www.wikidot.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "http://www.wikidot.com/user:info/testtt"
+          },
+          {
+            "siteName": "Kaskus",
+            "url": "https://www.kaskus.co.id",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.kaskus.co.id/@testtt"
+          },
+          {
+            "siteName": "AfreecaTV",
+            "url": "http://bjapi.afreecatv.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "http://bjapi.afreecatv.com/api/testtt/station"
+          },
+          {
+            "siteName": "BoardGameGeek",
+            "url": "https://boardgamegeek.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://boardgamegeek.com/user/testtt"
+          },
+          {
+            "siteName": "videohive.net",
+            "url": "https://videohive.net",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://videohive.net/user/testtt"
+          },
+          {
+            "siteName": "Picuki",
+            "url": "https://www.picuki.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.picuki.com/profile/testtt"
+          },
+          {
+            "siteName": "Bit.ly",
+            "url": "https://bit.ly",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://bit.ly/testtt"
+          },
+          {
+            "siteName": "OpenStreetMap",
+            "url": "https://www.openstreetmap.org/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.openstreetmap.org/user/testtt"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Phillippines",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=testtt&region=ph"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Singapore",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=testtt&region=sg"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Thailand",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=testtt&region=th"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Europe West",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=testtt&region=euw"
+          },
+          {
+            "siteName": "Audiojungle",
+            "url": "https://audiojungle.net/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://audiojungle.net/user/testtt"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Turkey",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=testtt&region=tr"
+          },
+          {
+            "siteName": "Flightradar24",
+            "url": "https://www.flightradar24.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://my.flightradar24.com/testtt"
+          },
+          {
+            "siteName": "last.fm",
+            "url": "https://last.fm/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://last.fm/user/testtt"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Korea",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=testtt&region=kr"
+          },
+          {
+            "siteName": "authorSTREAM",
+            "url": "http://www.authorstream.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "http://www.authorstream.com/author/testtt/"
+          },
+          {
+            "siteName": "Gog",
+            "url": "https://www.gog.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.gog.com/u/testtt"
+          },
+          {
+            "siteName": "www.minds.com",
+            "url": "https://www.minds.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.minds.com/testtt"
+          },
+          {
+            "siteName": "BitBucket",
+            "url": "https://bitbucket.org/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://bitbucket.org/testtt/"
+          },
+          {
+            "siteName": "IFTTT",
+            "url": "https://www.ifttt.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.ifttt.com/p/testtt"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] North America",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=testtt&region=na"
+          },
+          {
+            "siteName": "osu!",
+            "url": "https://osu.ppy.sh/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://osu.ppy.sh/users/testtt"
+          },
+          {
+            "siteName": "Pandia",
+            "url": "https://pandia.ru",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://pandia.ru/user/profile/testtt"
+          },
+          {
+            "siteName": "Pokemon Showdown",
+            "url": "https://pokemonshowdown.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://pokemonshowdown.com/users/testtt"
+          },
+          {
+            "siteName": "WikimapiaSearch",
+            "url": "http://wikimapia.org",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "http://wikimapia.org/user/tools/users_rating/?username=testtt"
+          },
+          {
+            "siteName": "steemit",
+            "url": "https://steemit.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://steemit.com/@testtt"
+          },
+          {
+            "siteName": "forums.serebii.net",
+            "url": "https://forums.serebii.net",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://forums.serebii.net/members/?username=testtt"
+          },
+          {
+            "siteName": "profile.hatena.ne.jp",
+            "url": "https://profile.hatena.ne.jp",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://profile.hatena.ne.jp/testtt/"
+          },
+          {
+            "siteName": "forums.bulbagarden.net",
+            "url": "http://forums.bulbagarden.net",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "http://forums.bulbagarden.net/members/?username=testtt"
+          },
+          {
+            "siteName": "9GAG",
+            "url": "https://www.9gag.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.9gag.com/u/testtt"
+          },
+          {
+            "siteName": "kwork",
+            "url": "https://www.kwork.ru/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://kwork.ru/user/testtt"
+          },
+          {
+            "siteName": "VSCO",
+            "url": "https://vsco.co/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://vsco.co/testtt"
+          },
+          {
+            "siteName": "Typeracer",
+            "url": "https://typeracer.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://data.typeracer.com/pit/profile?user=testtt"
+          },
+          {
+            "siteName": "mercadolivre",
+            "url": "https://www.mercadolivre.com.br",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.mercadolivre.com.br/perfil/testtt"
+          },
+          {
+            "siteName": "Picsart",
+            "url": "https://picsart.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://picsart.com/u/testtt"
+          },
+          {
+            "siteName": "Teletype",
+            "url": "https://teletype.in",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://teletype.in/@testtt"
+          },
+          {
+            "siteName": "Gumroad",
+            "url": "https://www.gumroad.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.gumroad.com/testtt"
+          },
+          {
+            "siteName": "Itch.io",
+            "url": "https://itch.io/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://testtt.itch.io/"
+          },
+          {
+            "siteName": "kofi",
+            "url": "https://ko-fi.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://ko-fi.com/testtt"
+          },
+          {
+            "siteName": "Newgrounds",
+            "url": "https://newgrounds.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://testtt.newgrounds.com"
+          },
+          {
+            "siteName": "LiveLib",
+            "url": "https://www.livelib.ru/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.livelib.ru/reader/testtt"
+          },
+          {
+            "siteName": "SkyscraperCity",
+            "url": "https://www.skyscrapercity.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.skyscrapercity.com/members/?username=testtt"
+          },
+          {
+            "siteName": "hashnode",
+            "url": "https://hashnode.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://hashnode.com/@testtt"
+          },
+          {
+            "siteName": "Codechef",
+            "url": "https://www.codechef.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.codechef.com/users/testtt"
+          },
+          {
+            "siteName": "Flipboard",
+            "url": "https://flipboard.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://flipboard.com/@testtt"
+          },
+          {
+            "siteName": "OP.GG [LeagueOfLegends] Taiwan",
+            "url": "https://www.op.gg/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.op.gg/summoners/search?q=testtt&region=tw"
+          },
+          {
+            "siteName": "3ddd",
+            "url": "https://3ddd.ru",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://3ddd.ru/users/testtt"
+          },
+          {
+            "siteName": "Freesound",
+            "url": "https://freesound.org/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://freesound.org/people/testtt/"
+          },
+          {
+            "siteName": "Kongregate",
+            "url": "https://www.kongregate.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.kongregate.com/accounts/testtt"
+          },
+          {
+            "siteName": "interpals",
+            "url": "https://www.interpals.net/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.interpals.net/testtt"
+          },
+          {
+            "siteName": "Truelancer",
+            "url": "https://www.truelancer.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.truelancer.com/freelancer/testtt"
+          },
+          {
+            "siteName": "Picarto",
+            "url": "https://ptvintern.picarto.tv",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://ptvintern.picarto.tv/metadescription/testtt"
+          },
+          {
+            "siteName": "Mix",
+            "url": "https://mix.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://mix.com/testtt"
+          },
+          {
+            "siteName": "getmyuni",
+            "url": "https://getmyuni.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.getmyuni.com/user/testtt"
+          },
+          {
+            "siteName": "BikeRadar",
+            "url": "https://forum.bikeradar.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://forum.bikeradar.com/profile/testtt"
+          },
+          {
+            "siteName": "Advego",
+            "url": "https://advego.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://advego.com/profile/testtt/author/"
+          },
+          {
+            "siteName": "Ameba",
+            "url": "https://profile.ameba.jp",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://profile.ameba.jp/ameba/testtt/"
+          },
+          {
+            "siteName": "AdultFriendFinder",
+            "url": "https://adultfriendfinder.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://adultfriendfinder.com/profile/testtt"
+          },
+          {
+            "siteName": "TheStudentRoom",
+            "url": "https://www.thestudentroom.co.uk",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.thestudentroom.co.uk/member.php?username=testtt"
+          },
+          {
+            "siteName": "ReverbNation",
+            "url": "https://www.reverbnation.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.reverbnation.com/testtt"
+          },
+          {
+            "siteName": "DonationsAlerts",
+            "url": "https://www.donationalerts.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.donationalerts.com/r/testtt"
+          },
+          {
+            "siteName": "Letterboxd",
+            "url": "https://letterboxd.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://letterboxd.com/testtt"
+          },
+          {
+            "siteName": "Diigo",
+            "url": "https://www.diigo.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.diigo.com/interact_api/load_profile_info?name=testtt"
+          },
+          {
+            "siteName": "amp.flipboard.com",
+            "url": "https://amp.flipboard.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://amp.flipboard.com/@testtt"
+          },
+          {
+            "siteName": "PushSquare",
+            "url": "http://www.pushsquare.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "http://www.pushsquare.com/users/testtt"
+          },
+          {
+            "siteName": "Blu-ray",
+            "url": "https://forum.blu-ray.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://forum.blu-ray.com/member.php?username=testtt"
+          },
+          {
+            "siteName": "Smule",
+            "url": "https://www.smule.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.smule.com/testtt"
+          },
+          {
+            "siteName": "Forumophilia",
+            "url": "https://www.forumophilia.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.forumophilia.com/profile.php?mode=viewprofile&u=testtt"
+          },
+          {
+            "siteName": "Slides",
+            "url": "https://slides.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://slides.com/testtt"
+          },
+          {
+            "siteName": "Codewars",
+            "url": "https://www.codewars.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.codewars.com/users/testtt"
+          },
+          {
+            "siteName": "allmylinks",
+            "url": "https://allmylinks.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://allmylinks.com/testtt"
+          },
+          {
+            "siteName": "NPM",
+            "url": "https://www.npmjs.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.npmjs.com/~testtt"
+          },
+          {
+            "siteName": "lnk.bio",
+            "url": "https://lnk.bio",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://lnk.bio/testtt"
+          },
+          {
+            "siteName": "ImageShack",
+            "url": "https://imageshack.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://imageshack.com/user/testtt"
+          },
+          {
+            "siteName": "E621",
+            "url": "https://e621.net",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://e621.net/users/testtt"
+          },
+          {
+            "siteName": "Venmo",
+            "url": "https://venmo.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://venmo.com/testtt"
+          },
+          {
+            "siteName": "Myinstants",
+            "url": "https://www.myinstants.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.myinstants.com/profile/testtt/"
+          },
+          {
+            "siteName": "Giantbomb",
+            "url": "https://www.giantbomb.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.giantbomb.com/profile/testtt"
+          },
+          {
+            "siteName": "xenforo.com",
+            "url": "https://xenforo.com/community/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://xenforo.com/community/members/?username=testtt"
+          },
+          {
+            "siteName": "Untappd",
+            "url": "https://untappd.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://untappd.com/user/testtt"
+          },
+          {
+            "siteName": "hi5",
+            "url": "http://www.hi5.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "http://www.hi5.com/testtt"
+          },
+          {
+            "siteName": "Gitee",
+            "url": "https://gitee.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://gitee.com/testtt"
+          },
+          {
+            "siteName": "MyMiniFactory",
+            "url": "https://www.myminifactory.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.myminifactory.com/users/testtt"
+          },
+          {
+            "siteName": "geocaching",
+            "url": "https://www.geocaching.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.geocaching.com/profile/?u=testtt"
+          },
+          {
+            "siteName": "couchsurfing",
+            "url": "https://www.couchsurfing.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.couchsurfing.com/people/testtt"
+          },
+          {
+            "siteName": "NPM-Package",
+            "url": "https://www.npmjs.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.npmjs.com/package/testtt"
+          }
+        ],
+        "extractedData": {},
+        "networkGraph": []
+      }
+    ],
+    "createdAt": "2025-08-11T14:46:39.556560",
+    "currentSite": "|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588|",
+    "sitesChecked": 1,
+    "totalSites": 1,
+    "resultsFound": 0,
+    "completedAt": "2025-08-11T14:48:07.699435"
+  },
+  "3f61cc68-067a-46b4-a2e0-146af37467a1": {
+    "id": "3f61cc68-067a-46b4-a2e0-146af37467a1",
+    "usernames": [
+      "simkjels"
+    ],
+    "options": {
+      "topSites": 20,
+      "timeout": 30,
+      "useCookies": false,
+      "allSites": false,
+      "disableRecursiveSearch": false,
+      "disableExtracting": false,
+      "withDomains": false,
+      "proxy": null,
+      "torProxy": null,
+      "i2pProxy": null,
+      "permute": false,
+      "tags": [],
+      "siteList": []
+    },
+    "status": "completed",
+    "progress": 100,
+    "results": [
+      {
+        "username": "simkjels",
+        "sites": [
+          {
+            "siteName": "YouTube User",
+            "url": "https://www.youtube.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.youtube.com/@simkjels"
+          },
+          {
+            "siteName": "YouTube",
+            "url": "https://www.youtube.com/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://www.youtube.com/@simkjels"
+          },
+          {
+            "siteName": "GitHubGist",
+            "url": "https://gist.github.com",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://gist.github.com/simkjels"
+          },
+          {
+            "siteName": "Twitch",
+            "url": "https://www.twitch.tv/",
+            "status": "Claimed",
+            "tags": [],
+            "metadata": {},
+            "urlUser": "https://twitchtracker.com/simkjels"
+          }
+        ],
+        "extractedData": {},
+        "networkGraph": []
+      }
+    ],
+    "createdAt": "2025-08-11T15:00:25.016511",
+    "currentSite": "|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588|",
+    "sitesChecked": 20,
+    "totalSites": 20,
+    "resultsFound": 0,
+    "completedAt": "2025-08-11T15:00:30.999288"
   }
 }
