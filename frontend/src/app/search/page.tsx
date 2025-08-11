@@ -3,7 +3,6 @@
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { SimpleSearchForm } from '@/components/search/SimpleSearchForm';
-import { SearchProgress } from '@/components/search/SearchProgress';
 import { useSearch } from '@/hooks/useSearch';
 
 export default function SearchPage() {
@@ -12,37 +11,14 @@ export default function SearchPage() {
 
   console.log('SearchPage render:', { currentSession, searchStatus, isSearching, error, progress, status });
 
-  // Handle search completion
+  // Note: Avoid prefetching dynamic routes in dev to prevent benign "Load failed" logs from modulepreload aborts
+
+  // Immediately move to results once a session is created to avoid intermediate reloads
   useEffect(() => {
-    console.log('SearchPage useEffect - checking completion:', {
-      currentSession: currentSession?.id,
-      status,
-      searchStatus: searchStatus?.status,
-      isSearching,
-      hasSession: !!currentSession?.id,
-      currentSessionStatus: currentSession?.status,
-      searchStatusStatus: searchStatus?.status
-    });
-
-    // Check multiple conditions for completion or failure
-    const currentSessionCompleted = currentSession && (currentSession.status === 'completed' || currentSession.status === 'failed');
-    const searchStatusCompleted = searchStatus && (searchStatus.status === 'completed' || searchStatus.status === 'failed');
-    const statusCompleted = status === 'completed' || status === 'failed';
-
-    console.log('SearchPage useEffect - isFinished:', currentSessionCompleted || searchStatusCompleted || statusCompleted);
-
-    if ((currentSessionCompleted || searchStatusCompleted || statusCompleted) && currentSession?.id) {
-      console.log('SearchPage useEffect - redirecting to results:', currentSession.id);
-      
-      // Stop polling before redirecting to prevent errors
-      stopSearch();
-      
-      // Add a small delay to ensure state is fully updated
-      setTimeout(() => {
-        router.push(`/results/${currentSession.id}`);
-      }, 200);
+    if (isSearching && currentSession?.id) {
+      router.replace(`/results/${currentSession.id}`);
     }
-  }, [currentSession, status, searchStatus, isSearching, router, stopSearch]);
+  }, [isSearching, currentSession?.id, router]);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -54,15 +30,7 @@ export default function SearchPage() {
           </p>
         </div>
 
-        <SimpleSearchForm
-          onSearch={startSearch}
-          isSearching={isSearching}
-        />
-
-        <SearchProgress
-          status={searchStatus}
-          isSearching={isSearching}
-        />
+        <SimpleSearchForm onSearch={startSearch} isSearching={isSearching} />
       </div>
     </div>
   );

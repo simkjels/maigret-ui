@@ -18,9 +18,9 @@ class ApiClient {
     try {
       console.log('Making API request to:', url);
       
-      // Add timeout to the fetch request - increased to 60 seconds for long searches
+      // Increase timeout to reduce aborts during long dev sessions
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout
+      const timeoutId = setTimeout(() => controller.abort(), 180000); // 3 minute timeout
       
       const response = await fetch(url, {
         headers: {
@@ -44,14 +44,20 @@ class ApiClient {
       console.log('API response data:', data);
       return data;
     } catch (error) {
-      console.error('API request failed:', error);
+      console.warn('API request failed:', error);
       if (error instanceof Error && error.name === 'AbortError') {
         return {
           success: false,
           error: 'Request timed out after 60 seconds',
         };
       }
-      if (error instanceof Error && (error.message.includes('fetch') || error.message.includes('Failed to fetch'))) {
+      if (
+        error instanceof Error && (
+          error.message.includes('fetch') ||
+          error.message.includes('Failed to fetch') ||
+          error.message.includes('Load failed')
+        )
+      ) {
         return {
           success: false,
           error: 'Unable to connect to the server. Please check if the backend is running.',
@@ -79,9 +85,9 @@ class ApiClient {
     try {
       console.log('Making status request to:', url);
       
-      // Use a much longer timeout for status requests (120 seconds) to prevent aborts during long searches
+      // Use a much longer timeout for status requests to prevent aborts during long searches
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 120000); // 120 second timeout
+      const timeoutId = setTimeout(() => controller.abort(), 300000); // 5 minute timeout
       
       const response = await fetch(url, {
         headers: {
@@ -103,14 +109,20 @@ class ApiClient {
       console.log('Status response data:', data);
       return data;
     } catch (error) {
-      console.error('Status request failed:', error);
+      console.warn('Status request failed:', error);
       if (error instanceof Error && error.name === 'AbortError') {
         return {
           success: false,
           error: 'Status request timed out after 120 seconds',
         };
       }
-      if (error instanceof Error && (error.message.includes('fetch') || error.message.includes('Failed to fetch'))) {
+      if (
+        error instanceof Error && (
+          error.message.includes('fetch') ||
+          error.message.includes('Failed to fetch') ||
+          error.message.includes('Load failed')
+        )
+      ) {
         return {
           success: false,
           error: 'Unable to connect to the server. Please check if the backend is running.',

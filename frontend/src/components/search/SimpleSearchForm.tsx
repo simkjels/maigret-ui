@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search, Settings, ChevronDown, ChevronUp } from 'lucide-react';
+import { Search, Settings, ChevronDown, ChevronUp, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
@@ -247,6 +247,7 @@ export function SimpleSearchForm({ onSearch, isSearching }: SimpleSearchFormProp
             >
               {isSearching ? (
                 <>
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
                   Searching...
                 </>
               ) : (

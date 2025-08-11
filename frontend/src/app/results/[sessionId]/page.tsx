@@ -1,71 +1,77 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useEffect, useMemo, useState } from 'react';
+import { useParams, notFound } from 'next/navigation';
 import { Layout } from '@/components/layout/Layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { SearchSession, SiteResult } from '@/types';
+import { SearchSession, SiteResult, SearchStatusResponse } from '@/types';
 import apiClient from '@/lib/api';
 import { Download, ExternalLink, User, Globe } from 'lucide-react';
 
 export default function ResultsPage() {
   const params = useParams();
-  const sessionId = params.sessionId as string;
+  const sessionId = useMemo(() => {
+    const raw = (params as Record<string, unknown>)?.sessionId;
+    if (typeof raw === 'string') return raw;
+    if (Array.isArray(raw) && raw.length > 0) return String(raw[0]);
+    return '';
+  }, [params]);
   const [session, setSession] = useState<SearchSession | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [status, setStatus] = useState<SearchStatusResponse | null>(null);
 
   useEffect(() => {
     console.log('Results page useEffect triggered with sessionId:', sessionId);
-    
-    const loadResults = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        console.log('Loading results for session:', sessionId);
-        
-        // Add a small delay to see if the issue is timing-related
-        await new Promise(resolve => setTimeout(resolve, 100));
-        
-        const response = await apiClient.getSearchResults(sessionId);
-        console.log('API response:', response);
-        
-        if (response.success && response.data) {
-          try {
-            // Convert string dates to Date objects, with error handling
+
+    if (!sessionId) {
+      setLoading(false);
+      setError('Invalid session id');
+      return;
+    }
+
+    // Poll status until completed, then fetch results once
+    let stopped = false;
+    setLoading(true);
+    setError(null);
+
+    const poll = async () => {
+      if (stopped) return;
+      const s = await apiClient.getSearchStatus(sessionId);
+      if (s.success && s.data) {
+        setStatus(s.data);
+        if (s.data.status === 'completed') {
+          const response = await apiClient.getSearchResults(sessionId);
+          if (response.success && response.data) {
             const sessionData = {
               ...response.data,
               createdAt: response.data.createdAt ? new Date(response.data.createdAt) : new Date(),
               completedAt: response.data.completedAt ? new Date(response.data.completedAt) : undefined
-            };
-            console.log('Processed session data:', sessionData);
+            } as SearchSession;
             setSession(sessionData);
-          } catch (dataError) {
-            console.error('Data processing error:', dataError);
-            // If date parsing fails, use the original data without date conversion
-            console.log('Using original data without date conversion');
-            setSession(response.data);
+            setLoading(false);
+            return; // stop polling
           }
-        } else {
-          console.error('API error:', response.error);
-          setError(response.error || 'Failed to load results');
+        } else if (s.data.status === 'failed') {
+          setError('Search failed');
+          setLoading(false);
+          return; // stop polling
         }
-      } catch (err) {
-        console.error('Load results error:', err);
-        setError('Failed to load search results');
-      } finally {
-        setLoading(false);
+      } else if (s.error) {
+        // Keep polling on transient network errors
+        console.warn('Status poll error:', s.error);
       }
+      setTimeout(poll, 1000);
     };
 
-    if (sessionId) {
-      loadResults();
-    } else {
-      console.log('No sessionId provided');
-    }
+    poll();
+
+    return () => {
+      stopped = true;
+    };
   }, [sessionId]);
 
   const handleExport = async (format: 'csv' | 'json' | 'pdf' | 'html') => {
@@ -86,7 +92,7 @@ export default function ResultsPage() {
   };
 
   const getStatusBadge = (status: SiteResult['status']) => {
-    const normalizedStatus = status.toLowerCase();
+    const normalizedStatus = String(status || '').toLowerCase();
     switch (normalizedStatus) {
       case 'claimed':
         return <Badge className="bg-green-500">Found</Badge>;
@@ -103,9 +109,12 @@ export default function ResultsPage() {
     return (
       <Layout>
         <div className="container mx-auto px-4 py-8">
-          <div className="text-center">
+          <div className="text-center space-y-2">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-            <p className="mt-4">Loading results...</p>
+            <p className="mt-2">Loading results...</p>
+            {status && (
+              <p className="text-sm text-muted-foreground">Status: {status.status} • {status.progress}%</p>
+            )}
           </div>
         </div>
       </Layout>
@@ -117,7 +126,7 @@ export default function ResultsPage() {
       <Layout>
         <div className="container mx-auto px-4 py-8">
           <div className="text-center">
-            <p className="text-red-600">Error: {error || 'Results not found'}</p>
+            <p className="text-red-600">{error || 'Results not found'}</p>
             {error && (
               <Button 
                 variant="outline" 
@@ -133,8 +142,8 @@ export default function ResultsPage() {
     );
   }
 
-  const claimedSites = session.results.flatMap(result => 
-    result.sites.filter(site => site.status.toLowerCase() === 'claimed')
+  const claimedSites = (session.results || []).flatMap(result => 
+    (result.sites || []).filter(site => String(site.status || '').toLowerCase() === 'claimed')
   );
 
   return (
@@ -143,7 +152,7 @@ export default function ResultsPage() {
         <div className="mb-8">
           <h1 className="text-3xl font-bold tracking-tight">Search Results</h1>
           <p className="text-muted-foreground">
-            Results for {session.usernames.join(', ')} - {session.results.length} profiles found
+            Results for {(session.usernames || []).join(', ')} - {(session.results || []).length} profiles found
           </p>
         </div>
 
@@ -151,7 +160,7 @@ export default function ResultsPage() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
           <Card>
             <CardContent className="p-6">
-              <div className="text-2xl font-bold">{session.usernames.length}</div>
+              <div className="text-2xl font-bold">{(session.usernames || []).length}</div>
               <div className="text-muted-foreground">Usernames Searched</div>
             </CardContent>
           </Card>
@@ -163,7 +172,7 @@ export default function ResultsPage() {
           </Card>
           <Card>
             <CardContent className="p-6">
-              <div className="text-2xl font-bold">{session.options.topSites}</div>
+              <div className="text-2xl font-bold">{session.options?.topSites ?? 0}</div>
               <div className="text-muted-foreground">Sites Checked</div>
             </CardContent>
           </Card>

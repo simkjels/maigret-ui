@@ -105,12 +105,15 @@ export function useSearch(): UseSearchReturn {
       
       setCurrentSession(response.data);
       sessionIdRef.current = response.data.id;
-      
-      // Start simple polling every 5 seconds
+
+      // Kick off an immediate status refresh so UI updates right away
+      await refreshStatus();
+
+      // Start faster polling for smoother progress updates
       const interval = setInterval(() => {
         refreshStatus();
-      }, 5000);
-      
+      }, 1000);
+
       intervalRef.current = interval;
       
     } catch (err) {

@@ -24,13 +24,7 @@ export function Header() {
               <Search className="h-4 w-4 mr-1 inline" />
               Search
             </Link>
-            <Link
-              href="/results"
-              className="transition-colors hover:text-foreground/80 text-foreground/60"
-            >
-              <BarChart3 className="h-4 w-4 mr-1 inline" />
-              Results
-            </Link>
+            {/* Results link removed to avoid prefetching non-existent /results index route */}
             <Link
               href="/settings"
               className="transition-colors hover:text-foreground/80 text-foreground/60"
