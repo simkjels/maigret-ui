@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { Search, Settings, BarChart3, Github } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { ModeToggle } from '@/components/mode-toggle';
 
 export function Header() {
   return (
@@ -35,6 +36,7 @@ export function Header() {
             </Link>
           </nav>
           
+          <ModeToggle />
           <Button variant="outline" size="sm" asChild>
             <Link href="https://github.com/simkjels/maigret-ui" target="_blank">
               <Github className="h-4 w-4 mr-1" />
