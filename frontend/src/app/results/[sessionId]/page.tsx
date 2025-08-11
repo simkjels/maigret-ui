@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { useParams, notFound } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { Layout } from '@/components/layout/Layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -25,7 +25,6 @@ export default function ResultsPage() {
   const [status, setStatus] = useState<SearchStatusResponse | null>(null);
 
   useEffect(() => {
-    console.log('Results page useEffect triggered with sessionId:', sessionId);
 
     if (!sessionId) {
       setLoading(false);
@@ -111,7 +110,8 @@ export default function ResultsPage() {
         <div className="container mx-auto px-4 py-8">
           <div className="text-center space-y-2">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-            <p className="mt-2">Loading results...</p>
+            <p className="mt-2">Searching websites for user(s)...</p>
+              <p className="text-sm text-muted-foreground">This can take a couple of minutes depending on your search terms and the number of sites being checked.</p>
             {status && (
               <p className="text-sm text-muted-foreground">Status: {status.status} • {status.progress}%</p>
             )}
