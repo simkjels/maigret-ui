@@ -1,15 +1,32 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { Layout } from '@/components/layout/Layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Input } from '@/components/ui/input';
+import { 
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { SearchSession, SiteResult, SearchStatusResponse } from '@/types';
 import apiClient from '@/lib/api';
-import { Download, ExternalLink, User, Globe } from 'lucide-react';
+import { Download, ExternalLink, User, Globe, Filter, Search as SearchIcon } from 'lucide-react';
 
 export default function ResultsPage() {
   const params = useParams();
@@ -23,6 +40,9 @@ export default function ResultsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<SearchStatusResponse | null>(null);
+  const [statusFilter, setStatusFilter] = useState<'all' | 'claimed' | 'unclaimed' | 'error'>('all');
+  const [tagFilter, setTagFilter] = useState<string>('all');
+  const [query, setQuery] = useState<string>('');
 
   useEffect(() => {
 
@@ -104,6 +124,39 @@ export default function ResultsPage() {
     }
   };
 
+  const normalizeStatus = (s: SiteResult['status']) => String(s || '').toLowerCase();
+
+  const allSiteRows = useMemo(() => {
+    if (!session) return [] as Array<SiteResult & { username: string }>;
+    return (session.results || []).flatMap(result =>
+      (result.sites || []).map(site => ({ ...site, username: result.username }))
+    );
+  }, [session]);
+
+  const allTags = useMemo(() => {
+    const set = new Set<string>();
+    allSiteRows.forEach(s => (s.tags || []).forEach(t => set.add(t)));
+    return Array.from(set).sort();
+  }, [allSiteRows]);
+
+  const matchesFilters = useCallback((site: SiteResult & { username: string }) => {
+    const statusOk = statusFilter === 'all' || normalizeStatus(site.status) === statusFilter;
+    const tagOk = tagFilter === 'all' || (site.tags || []).includes(tagFilter);
+    const q = query.trim().toLowerCase();
+    const queryOk = q.length === 0 ||
+      site.siteName.toLowerCase().includes(q) ||
+      (site.username || '').toLowerCase().includes(q);
+    return statusOk && tagOk && queryOk;
+  }, [statusFilter, tagFilter, query]);
+
+  const filteredClaimedRows = useMemo(() => {
+    return allSiteRows.filter(r => normalizeStatus(r.status) === 'claimed').filter(matchesFilters);
+  }, [allSiteRows, statusFilter, tagFilter, query, matchesFilters]);
+
+  const filteredAllRows = useMemo(() => {
+    return allSiteRows.filter(matchesFilters);
+  }, [allSiteRows, statusFilter, tagFilter, query, matchesFilters]);
+
   if (loading) {
     return (
       <Layout>
@@ -143,7 +196,7 @@ export default function ResultsPage() {
   }
 
   const claimedSites = (session.results || []).flatMap(result => 
-    (result.sites || []).filter(site => String(site.status || '').toLowerCase() === 'claimed')
+    (result.sites || []).filter(site => normalizeStatus(site.status) === 'claimed')
   );
 
   return (
@@ -215,6 +268,61 @@ export default function ResultsPage() {
           </CardContent>
         </Card>
 
+        {/* Filters */}
+        <Card className="mb-6">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <Filter className="h-4 w-4" />
+              Filters
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col md:flex-row gap-3 items-stretch md:items-center">
+              <div className="flex items-center gap-2 md:w-80">
+                <SearchIcon className="h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search site or username"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                />
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-muted-foreground">Status</span>
+                <Select value={statusFilter} onValueChange={(v: 'all' | 'claimed' | 'unclaimed' | 'error') => setStatusFilter(v)}>
+                  <SelectTrigger className="min-w-36">
+                    <SelectValue placeholder="All statuses" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All</SelectItem>
+                    <SelectItem value="claimed">Found</SelectItem>
+                    <SelectItem value="unclaimed">Not Found</SelectItem>
+                    <SelectItem value="error">Error</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-muted-foreground">Tag</span>
+                <Select value={tagFilter} onValueChange={(v) => setTagFilter(v)}>
+                  <SelectTrigger className="min-w-36">
+                    <SelectValue placeholder="All tags" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All</SelectItem>
+                    {allTags.map(t => (
+                      <SelectItem key={t} value={t}>{t}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="md:ml-auto">
+                <Button variant="ghost" onClick={() => { setStatusFilter('all'); setTagFilter('all'); setQuery(''); }}>
+                  Reset filters
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Results Tabs */}
         <Tabs defaultValue="profiles" className="w-full">
           <TabsList className="grid w-full grid-cols-2">
@@ -223,46 +331,49 @@ export default function ResultsPage() {
           </TabsList>
 
           <TabsContent value="profiles" className="space-y-4">
-            {claimedSites.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {claimedSites.map((site, index) => (
-                  <Card key={index}>
-                    <CardContent className="p-4">
-                      <div className="flex items-start justify-between mb-2">
-                        <div className="flex items-center gap-2">
-                          <Globe className="h-4 w-4" />
-                          <span className="font-medium">{site.siteName}</span>
-                        </div>
-                        {getStatusBadge(site.status)}
-                      </div>
-                      
-                      {site.urlUser && (
-                        <div className="mb-2">
-                          <a
-                            href={site.urlUser}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-sm text-blue-600 hover:underline flex items-center gap-1"
-                          >
-                            <ExternalLink className="h-3 w-3" />
-                            Visit Profile
-                          </a>
-                        </div>
-                      )}
-
-                      {site.tags && site.tags.length > 0 && (
-                        <div className="flex flex-wrap gap-1">
-                          {site.tags.map(tag => (
-                            <Badge key={tag} variant="outline" className="text-xs">
-                              {tag}
-                            </Badge>
-                          ))}
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+            {filteredClaimedRows.length > 0 ? (
+              <Card>
+                <CardContent className="p-0">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Site</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead>Link</TableHead>
+                        <TableHead>Tags</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {filteredClaimedRows.map((row, idx) => (
+                        <TableRow key={idx}>
+                          <TableCell className="flex items-center gap-2">
+                            <Globe className="h-4 w-4" />
+                            <span className="font-medium">{row.siteName}</span>
+                          </TableCell>
+                          <TableCell>{getStatusBadge(row.status)}</TableCell>
+                          <TableCell>
+                            {row.urlUser && (
+                              <Button variant="ghost" size="sm" asChild>
+                                <a href={row.urlUser} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1">
+                                  <ExternalLink className="h-4 w-4" />
+                                  Open
+                                </a>
+                              </Button>
+                            )}
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex flex-wrap gap-1">
+                              {(row.tags || []).map(tag => (
+                                <Badge key={tag} variant="outline" className="text-xs">{tag}</Badge>
+                              ))}
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </CardContent>
+              </Card>
             ) : (
               <Card>
                 <CardContent className="p-8 text-center">
@@ -274,35 +385,74 @@ export default function ResultsPage() {
           </TabsContent>
 
           <TabsContent value="all" className="space-y-4">
-            {session.results.map((result, resultIndex) => (
-              <Card key={resultIndex}>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <User className="h-5 w-5" />
-                    {result.username}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    {result.sites.map((site, siteIndex) => (
-                      <div key={siteIndex} className="flex items-center justify-between p-2 border rounded">
-                        <span className="font-medium">{site.siteName}</span>
-                        <div className="flex items-center gap-2">
-                          {getStatusBadge(site.status)}
-                          {site.urlUser && (
-                            <Button variant="ghost" size="sm" asChild>
-                              <a href={site.urlUser} target="_blank" rel="noopener noreferrer">
-                                <ExternalLink className="h-4 w-4" />
-                              </a>
-                            </Button>
-                          )}
-                        </div>
+            <Accordion type="multiple" className="w-full">
+              {session.results.map((result, idx) => {
+                const rows = filteredAllRows.filter(r => r.username === result.username);
+                const claimedCount = rows.filter(r => normalizeStatus(r.status) === 'claimed').length;
+                return (
+                  <AccordionItem key={idx} value={`user-${idx}`}>
+                    <AccordionTrigger>
+                      <div className="flex items-center gap-2">
+                        <User className="h-5 w-5" />
+                        <span className="font-medium">{result.username}</span>
+                        <Badge variant="secondary" className="ml-2">{rows.length} sites</Badge>
+                        {claimedCount > 0 && (
+                          <Badge className="ml-1">{claimedCount} found</Badge>
+                        )}
                       </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      {rows.length > 0 ? (
+                        <Card>
+                          <CardContent className="p-0">
+                            <Table>
+                              <TableHeader>
+                                <TableRow>
+                                  <TableHead>Site</TableHead>
+                                  <TableHead>Status</TableHead>
+                                  <TableHead>Link</TableHead>
+                                  <TableHead>Tags</TableHead>
+                                </TableRow>
+                              </TableHeader>
+                              <TableBody>
+                                {rows.map((row, rIdx) => (
+                                  <TableRow key={rIdx}>
+                                    <TableCell className="flex items-center gap-2">
+                                      <Globe className="h-4 w-4" />
+                                      <span className="font-medium">{row.siteName}</span>
+                                    </TableCell>
+                                    <TableCell>{getStatusBadge(row.status)}</TableCell>
+                                    <TableCell>
+                                      {row.urlUser && (
+                                        <Button variant="ghost" size="sm" asChild>
+                                          <a href={row.urlUser} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1">
+                                            <ExternalLink className="h-4 w-4" />
+                                            Open
+                                          </a>
+                                        </Button>
+                                      )}
+                                    </TableCell>
+                                    <TableCell>
+                                      <div className="flex flex-wrap gap-1">
+                                        {(row.tags || []).map(tag => (
+                                          <Badge key={tag} variant="outline" className="text-xs">{tag}</Badge>
+                                        ))}
+                                      </div>
+                                    </TableCell>
+                                  </TableRow>
+                                ))}
+                              </TableBody>
+                            </Table>
+                          </CardContent>
+                        </Card>
+                      ) : (
+                        <div className="text-sm text-muted-foreground px-2">No sites match current filters.</div>
+                      )}
+                    </AccordionContent>
+                  </AccordionItem>
+                );
+              })}
+            </Accordion>
           </TabsContent>
         </Tabs>
       </div>

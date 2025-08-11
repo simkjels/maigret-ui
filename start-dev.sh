@@ -44,8 +44,10 @@ echo "🎨 Starting frontend server..."
 cd frontend
 if command -v bun >/dev/null 2>&1; then
   # Prefer bun if available for faster dev
+  rm -rf .next
   bun run dev &
 else
+  rm -rf .next
   npm run dev &
 fi
 FRONTEND_PID=$!

@@ -40,7 +40,7 @@ export interface SiteResult {
   url: string;
   status: 'Claimed' | 'Unclaimed' | 'Error' | 'claimed' | 'unclaimed' | 'error';
   tags: string[];
-  metadata: Record<string, any>;
+  metadata: Record<string, unknown>;
   urlUser?: string;
   errorMessage?: string;
 }
@@ -54,7 +54,7 @@ export interface ExtractedData {
   email?: string;
   phone?: string;
   socialLinks?: string[];
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface NetworkNode {
@@ -63,7 +63,7 @@ export interface NetworkNode {
   group: number;
   size: number;
   type: 'username' | 'site' | 'data';
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface NetworkEdge {
